@@ -6,6 +6,6 @@ var path = require('path');
 program
     .parse(process.argv);
 
-var appFile = path.join(process.cwd(), process.argv[2] || 'all');
+var appFile = process.argv[2] || 'all';
 console.log('appFile', appFile);
 exec('pm2 delete ' + appFile);

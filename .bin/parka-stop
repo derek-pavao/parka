@@ -6,7 +6,7 @@ var path = require('path');
 program
     .parse(process.argv);
 
-var appFile = path.join(process.cwd(), process.argv[2] || 'all');
-console.log('appFile', appFile);
+var appFile = process.argv[2] || 'all';
+
 exec('pm2 stop ' + appFile);
 
