@@ -1,0 +1,11 @@
+#! /usr/bin/env node
+
+var program = require('commander');
+
+program
+    .command('start <mainFile>', 'Start the server')
+    .command('stop <processName|pm2Id>', 'Stop server by processName (pm2 id also works here)')
+    .command('list', 'List running pm2 processes')
+    .command('delete <processName|pm2Id>', 'Delete the server by processName (pm2 id also works here)')
+    .parse(process.argv);
+
