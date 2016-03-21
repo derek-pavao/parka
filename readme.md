@@ -76,5 +76,80 @@ npm install parka --save
 typings install
 ```
 
+Now that we're set up we can get started on the application it self. Every Parka app requires a main application class, a configuration class and a config.yml file. When a Parka app boots up the configuration yaml file is deserialized into an instance of your configuration class, this is a great place to put environment specific parameters.
+
+#### Lets create our configuration class (./application-config.ts)
+```typescript
+import {ParkaConfig} from "parka";
+
+export class ApplicationConfig extends ParkaConfig {
+
+}
+```
+
+We dont actually need to define anything in this class for the example. We're only going to use properties defined in the parent ParkaConfig class
+
+#### Lets create our application class (./application.ts)
+
+```typescript
+import {ParkaApp} from "parka";
+import {MyConfig} from "./application-config";
+import {ExampleResource} from "./resources/example-resource";
 
 
+export class Application extends ParkaApp<ApplicationConfig> {
+
+
+    public onBeforeApplicationStart() {
+        // We can register each resource file here. We will create this file in the next step
+        this.registerResource(ExampleResource)
+    }
+}
+
+// Instantiate a new instance of your application
+new Application(ApplicationConfig);
+```
+
+#### Now lets create the resource file we referenced in our application class in the last step
+
+Resource files are where you define the routes of your application, here we make use of TypeScript decorators
+
+./resources/example-resource.ts
+```typescript
+import {Path} from "parka";
+import {GET} from "parka";
+
+@Path('/example')
+export class ExampleResource {
+
+    @GET
+    public exampleGet() {
+        return {
+            status: 'ok'
+        };
+    }
+}
+```
+
+#### Lastly lets create our yaml file for our environment specific info
+./config.yml
+```yaml
+appName: my-application
+env: dev
+host: 0.0.0.0
+port: 3000
+```
+
+#### Starting the application
+We can use the parka cli which wraps pm2 to make it work with TypeScript
+
+```bash
+# from the root of your project
+parka start application.ts config.yml
+```
+
+#### Stopping the application
+Control-C will exit the terminal logging output from express, but the application will still be running in the background. To stop and remove it completely run
+```bash
+parka delete
+```
