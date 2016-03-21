@@ -1,6 +1,6 @@
 import * as path from 'path';
 import {
-    TopSoilApp
+    ParkaApp
 } from '../src/index';
 
 
@@ -9,7 +9,7 @@ import {ExampleResource} from "./resources/example-resource";
 
 
 
-export class MyApp extends TopSoilApp {
+export class MyApp extends ParkaApp {
 
 
     constructor() {

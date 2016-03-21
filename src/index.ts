@@ -1,5 +1,5 @@
 export * from './core/bootstrap';
-export * from './core/top-soil-app';
+export * from './core/parka-app';
 export * from './decorators/path';
 export * from './decorators/get';
 export * from './decorators/path-param';

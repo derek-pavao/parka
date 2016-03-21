@@ -13,7 +13,7 @@ import {
 import {IAppConfig} from "../index";
 
 
-export class TopSoilApp {
+export class ParkaApp {
 
     public static app: express.Application;
     public configFile: string;
@@ -28,7 +28,7 @@ export class TopSoilApp {
 
             this.parseAppConfig();
             this.configureExpressServer();
-            this.onBeforeApplicationStart(TopSoilApp.app);
+            this.onBeforeApplicationStart(ParkaApp.app);
 
             this.start();
         }, 0);
@@ -49,7 +49,7 @@ export class TopSoilApp {
         if (typeof deleteMethods !== 'undefined') {
 
             deleteMethods.forEach((deleteMethod) => {
-                TopSoilApp.app.delete(this.getPath(ResourceClass, deleteMethod), (req, res) => {
+                ParkaApp.app.delete(this.getPath(ResourceClass, deleteMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -70,7 +70,7 @@ export class TopSoilApp {
         if (typeof putMethods !== 'undefined') {
 
             putMethods.forEach((putMethod) => {
-                TopSoilApp.app.put(this.getPath(ResourceClass, putMethod), (req, res) => {
+                ParkaApp.app.put(this.getPath(ResourceClass, putMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -91,7 +91,7 @@ export class TopSoilApp {
         if (typeof postMethods !== 'undefined') {
 
             postMethods.forEach((postMethod) => {
-                TopSoilApp.app.post(this.getPath(ResourceClass, postMethod), (req, res) => {
+                ParkaApp.app.post(this.getPath(ResourceClass, postMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -112,7 +112,7 @@ export class TopSoilApp {
 
         if (typeof getMethods !== 'undefined') {
             getMethods.forEach((getMethod) => {
-                TopSoilApp.app.get(this.getPath(ResourceClass, getMethod), (req, res) => {
+                ParkaApp.app.get(this.getPath(ResourceClass, getMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -176,7 +176,7 @@ export class TopSoilApp {
 
     private start() {
 
-        let server: http.Server = http.createServer(<any> TopSoilApp.app);
+        let server: http.Server = http.createServer(<any> ParkaApp.app);
 
         server.listen(this.config.port, this.config.host, () => {
             console.log('server listening on port', server.address().port)
@@ -202,7 +202,7 @@ export class TopSoilApp {
             res.send('it worked');
         });
 
-        TopSoilApp.app = app;
+        ParkaApp.app = app;
     }
 
 }
