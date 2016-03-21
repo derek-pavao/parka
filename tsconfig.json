@@ -4,12 +4,19 @@
         "target": "es5",
         "noImplicitAny": false,
         "sourceMap": true,
+        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "declaration": true
     },
     "exclude": [
         "node_modules",
         "typings/main",
-        "typings/main.d.ts"
-    ]
+        "typings/browser",
+        "typings/main.d.ts",
+        "example",
+        "test",
+        "dist"
+    ],
+    "compileOnSave": false
 }

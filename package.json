@@ -2,23 +2,28 @@
   "name": "parka",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/parka.js",
   "scripts": {
     "start-example": "ts-node example/app.ts",
     "tsc": "tsc",
     "typings": "typings",
-    "test": "export PARKA_CONFIG_FILE=./test/config.yml && mocha --require ts-node/register test/**/*-spec.ts"
+    "test": "export PARKA_CONFIG_FILE=./test/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
+    "build": "rm -rf ./dist && tsc --outDir ./dist",
+    "prepublish": "npm run build",
+    "generate-dts": "dts-generator --project ./ --name parka --out ./dist/parka.d.ts"
   },
-  "author": "Derek Pavao <derek@derekpavao.com>",
+  "author": "Derek Pavao <derek@dotDeeka.com>",
   "license": "MIT",
   "bin": {
     "parka": "./.bin/parka"
   },
+  "typings": "./dist/parka.d.ts",
   "dependencies": {
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "commander": "^2.9.0",
     "cookie-parser": "^1.4.1",
+    "dts-generator": "^1.7.0",
     "express": "^4.13.4",
     "lodash": "^4.6.1",
     "morgan": "^1.7.0",

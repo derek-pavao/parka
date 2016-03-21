@@ -1,11 +1,11 @@
 import * as express from 'express';
-import {Path} from "../../src/index";
-import {GET} from "../../src/index";
-import {PathParam} from '../../src/index';
-import {QueryParam} from '../../src/index';
-import {POST} from '../../src/index';
-import {DELETE} from '../../src/index';
-import {RequestBody} from '../../src/index';
+import {Path} from "../../src/parka";
+import {GET} from "../../src/parka";
+import {PathParam} from '../../src/parka';
+import {QueryParam} from '../../src/parka';
+import {POST} from '../../src/parka';
+import {DELETE} from '../../src/parka';
+import {RequestBody} from '../../src/parka';
 
 import * as Promise from 'bluebird';
 import {StatusModel} from "../models/status-model";
