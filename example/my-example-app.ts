@@ -6,22 +6,20 @@ import {
 
 import * as express from 'express';
 import {ExampleResource} from "./resources/example-resource";
+import {MyExampleConfig} from "./my-example-config";
 
 
 
-export class MyApp extends ParkaApp {
 
+export class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
-    constructor() {
-        super();
-        this.configFile = path.join(__dirname, './config.yml');
-    }
 
     public onBeforeApplicationStart(app: express.Application): void {
-        MyApp.app = app;
+        MyExampleApp.app = app;
         this.registerResource(ExampleResource);
+
     }
 
 }
 
-new MyApp();
+new MyExampleApp(MyExampleConfig);

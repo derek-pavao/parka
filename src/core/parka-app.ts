@@ -10,28 +10,28 @@ import {
     Request,
     Response
 } from 'express';
-import {IAppConfig} from "../index";
+import {ParkaConfig} from "./parka-config";
 
 
-export class ParkaApp {
+export class ParkaApp <T extends ParkaConfig>{
 
     public static app: express.Application;
     public configFile: string;
-    public config: IAppConfig;
+    public config: T;
 
     private port: any;
 
 
 
-    constructor() {
-        setTimeout(() => {
-
+    constructor(private ConfigConstructor) {
+        this.configFile = process.env.PARKA_CONFIG_FILE;
+        process.nextTick(() => {
             this.parseAppConfig();
             this.configureExpressServer();
             this.onBeforeApplicationStart(ParkaApp.app);
 
             this.start();
-        }, 0);
+        });
     }
 
     public onBeforeApplicationStart(app: express.Application) {}
@@ -179,14 +179,15 @@ export class ParkaApp {
         let server: http.Server = http.createServer(<any> ParkaApp.app);
 
         server.listen(this.config.port, this.config.host, () => {
-            console.log('server listening on port', server.address().port)
+            console.log('server listening at ', server.address().address + ':' + server.address().port);
         });
 
     }
 
     private parseAppConfig() {
-        this.config = YAML.load(this.configFile);
-        console.log(this.config);
+        console.log('configFile', this.configFile);
+        let configFileContents = YAML.load(this.configFile);
+        this.config = new this.ConfigConstructor(configFileContents);
     }
 
     private configureExpressServer() {

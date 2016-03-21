@@ -10,18 +10,16 @@ program
     .parse(process.argv);
 
 var appFile = path.join(process.cwd(), process.argv[2]);
+var configFile = path.join(process.cwd(), process.argv[3]);
 
 var instances = program.instances || 0;
 
 if (program.daemon) {
-    exec('pm2 start '+ appFile +' --name '+ appFile +' -i '+ instances +'  --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
+    exec('export PARKA_CONFIG_FILE='+ configFile +' && pm2 start '+ appFile +' --name '+ appFile +' -i '+ instances +'  --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
 
 } else {
-    process.on('SIGINT', function () {
-        console.log('stop that shit');
-        exec('pm2 stop '+ appFile);
-    });
-    exec('pm2 start '+ appFile +' --name '+ appFile +' --no-daemon --watch  --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
+
+    exec('export PARKA_CONFIG_FILE='+ configFile +' && pm2 start '+ appFile +' --name '+ appFile +' --no-daemon --watch  --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
 
 }
 
