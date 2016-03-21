@@ -13,6 +13,7 @@
     "generate-dts": "dts-generator --project ./ --name parka --out ./dist/parka.d.ts"
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
+  "homepage": "https://github.com/dotDeeka/parka",
   "license": "MIT",
   "bin": {
     "parka": "./.bin/parka"
