@@ -3,6 +3,8 @@
 Just as a warning Parka is in a total Pre-Alpha stage, it is not feature complete let alone production
 ready.
 
+I suspect that this project will only work with node version 4.x or higher although I haven't tested that
+
 Parka is a simple TypeScript framework/library that runs on Express/NodeJS for building REST services.
 Parka takes advantage of TypeScript features like decorators to make things like defining
 routes easier.
@@ -93,7 +95,7 @@ We dont actually need to define anything in this class for the example. We're on
 
 ```typescript
 import {ParkaApp} from "parka";
-import {MyConfig} from "./application-config";
+import {ApplicationConfig} from "./application-config";
 import {ExampleResource} from "./resources/example-resource";
 
 
