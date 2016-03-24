@@ -1,4 +1,4 @@
-import {ParkaConfig} from "../src/parka";
+import {ParkaConfig} from "../../src/parka";
 
 
 export class MyExampleConfig extends ParkaConfig {

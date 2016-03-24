@@ -1,4 +1,4 @@
-import {MyExampleApp} from "../example/my-example-app.ts";
+import {MyExampleApp} from "./example/my-example-app.ts";
 import * as request from 'supertest';
 
 describe('ExampleSpec', () => {

@@ -7,7 +7,7 @@
     "start-example": "ts-node example/app.ts",
     "tsc": "tsc",
     "typings": "typings",
-    "test": "export PARKA_CONFIG_FILE=./test/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
+    "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
     "build": "rm -rf ./dist && tsc --outDir ./dist",
     "prepublish": "npm run build",
     "generate-dts": "dts-generator --project ./ --name parka --out ./dist/parka.d.ts"

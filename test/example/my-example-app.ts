@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {
     ParkaApp
-} from '../src/parka';
+} from '../../src/parka';
 
 
 import * as express from 'express';

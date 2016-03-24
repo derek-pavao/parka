@@ -1,5 +1,5 @@
 import * as request from 'supertest';
-import {MyExampleApp} from '../example/my-example-app.ts';
+import {MyExampleApp} from './example/my-example-app.ts';
 
 
 describe('ExampleResource', () => {
