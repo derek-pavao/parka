@@ -9,6 +9,7 @@ import {RequestBody} from '../../../src/parka';
 
 import * as Promise from 'bluebird';
 import {StatusModel} from "../models/status-model";
+import {PersonModel} from '../models/person-model';
 
 
 
@@ -87,6 +88,11 @@ export class ExampleResource {
         }
     }
 
+    @GET
+    @Path('/person')
+    public getRandomPerson() {
+
+    }
 
 
 

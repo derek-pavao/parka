@@ -11,15 +11,15 @@ import {MyExampleConfig} from "./my-example-config";
 
 
 
-export class MyExampleApp extends ParkaApp<MyExampleConfig> {
+class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
 
-    public onBeforeApplicationStart(app: express.Application): void {
-        MyExampleApp.app = app;
+    public onBeforeApplicationStart(): void {
+
         this.registerResource(ExampleResource);
 
     }
 
 }
 
-new MyExampleApp(MyExampleConfig);
+export let app = new MyExampleApp(MyExampleConfig);

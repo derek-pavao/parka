@@ -15,7 +15,8 @@ import {ParkaConfig} from "./parka-config";
 
 export class ParkaApp <T extends ParkaConfig>{
 
-    public static app: express.Application;
+    public static appInstance: ParkaApp<ParkaConfig>;
+    public expressApp: express.Application;
     public configFile: string;
     public config: T;
 
@@ -26,15 +27,16 @@ export class ParkaApp <T extends ParkaConfig>{
     constructor(private ConfigConstructor) {
         this.configFile = process.env.PARKA_CONFIG_FILE;
         process.nextTick(() => {
+            ParkaApp.appInstance = this;
             this.parseAppConfig();
             this.configureExpressServer();
-            this.onBeforeApplicationStart(ParkaApp.app);
+            this.onBeforeApplicationStart();
 
             this.start();
         });
     }
 
-    public onBeforeApplicationStart(app: express.Application) {}
+    public onBeforeApplicationStart() {}
 
     public registerResource(ResourceClass: any) {
         this.registerGetRoutes(ResourceClass);
@@ -49,7 +51,7 @@ export class ParkaApp <T extends ParkaConfig>{
         if (typeof deleteMethods !== 'undefined') {
 
             deleteMethods.forEach((deleteMethod) => {
-                ParkaApp.app.delete(this.getPath(ResourceClass, deleteMethod), (req, res) => {
+                this.expressApp.delete(this.getPath(ResourceClass, deleteMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -70,7 +72,7 @@ export class ParkaApp <T extends ParkaConfig>{
         if (typeof putMethods !== 'undefined') {
 
             putMethods.forEach((putMethod) => {
-                ParkaApp.app.put(this.getPath(ResourceClass, putMethod), (req, res) => {
+                this.expressApp.put(this.getPath(ResourceClass, putMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -91,7 +93,7 @@ export class ParkaApp <T extends ParkaConfig>{
         if (typeof postMethods !== 'undefined') {
 
             postMethods.forEach((postMethod) => {
-                ParkaApp.app.post(this.getPath(ResourceClass, postMethod), (req, res) => {
+                this.expressApp.post(this.getPath(ResourceClass, postMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -112,7 +114,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
         if (typeof getMethods !== 'undefined') {
             getMethods.forEach((getMethod) => {
-                ParkaApp.app.get(this.getPath(ResourceClass, getMethod), (req, res) => {
+                this.expressApp.get(this.getPath(ResourceClass, getMethod), (req, res) => {
                     let resource = new ResourceClass();
                     resource.req = req;
                     resource.res = res;
@@ -176,7 +178,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
     private start() {
 
-        let server: http.Server = http.createServer(<any> ParkaApp.app);
+        let server: http.Server = http.createServer(<any> this.expressApp);
 
         server.listen(this.config.port, this.config.host, () => {
             console.log('server listening at ', server.address().address + ':' + server.address().port);
@@ -203,7 +205,7 @@ export class ParkaApp <T extends ParkaConfig>{
             res.send('it worked');
         });
 
-        ParkaApp.app = app;
+        this.expressApp = app;
     }
 
 }
