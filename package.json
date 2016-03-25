@@ -15,6 +15,13 @@
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
   "homepage": "https://github.com/dotDeeka/parka",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotDeeka/parka.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dotDeeka/parka/issues"
+  },
   "license": "MIT",
   "bin": {
     "parka": "./.bin/parka"

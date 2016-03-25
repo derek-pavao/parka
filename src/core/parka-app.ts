@@ -63,7 +63,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[deleteMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    });
+                    }).catch((err) => res.status(err.statusCode).send(err));
                 });
             });
         }
@@ -84,7 +84,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[putMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    });
+                    }).catch((err) => res.status(err.statusCode).send(err));
                 });
             });
         }
@@ -105,7 +105,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[postMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    });
+                    }).catch((err) => res.status(err.statusCode).send(err));
                 });
             });
         }
@@ -126,7 +126,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[getMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    });
+                    }).catch((err) => res.status(err.statusCode).send(err));
                 });
             });
         }
@@ -156,10 +156,10 @@ export class ParkaApp <T extends ParkaConfig>{
         if (typeof paramDef.constructor !== 'undefined') {
             if (paramDef.isArray === true) {
                 return req.body.map((item) => {
-                    return new paramDef.constructor(item);
+                    return paramDef.constructor.fromJson(item);
                 });
             } else {
-                return new paramDef.constructor(req.body);
+                return paramDef.constructor.fromJson(req.body);
             }
         } else {
             return req.body;

@@ -8,6 +8,5 @@ export class PersonModel extends ParkaModel {
 
 }
 
-console.log('PersonModel.query', PersonModel['query']);
 
 

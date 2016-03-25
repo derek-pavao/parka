@@ -15,7 +15,7 @@ export class ParkaConfig {
     }
 }
 
-interface IDbConnection {
+export interface IDbConnection {
     client: string;
     connection: any;
     useNullAsDefault?: boolean

@@ -90,8 +90,16 @@ export class ExampleResource {
 
     @GET
     @Path('/person')
-    public getRandomPerson() {
+    public getPersonList() {
         return PersonModel.query();
+    }
+
+    @GET
+    @Path('/person/:id')
+    public getPersonById(@PathParam('id') id) {
+
+        return PersonModel.query()
+            .findById(id);
     }
 
 

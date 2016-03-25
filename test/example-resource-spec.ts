@@ -1,5 +1,7 @@
 import * as request from 'supertest';
 import {app} from './example/my-example-app.ts';
+import * as chai from 'chai';
+const expect = chai.expect;
 
 
 describe('ExampleResource', () => {
@@ -55,5 +57,15 @@ describe('ExampleResource', () => {
         }, done)
 
     });
+
+    //it ('should be able to ge a list of Persons out of the sqlite db', (done) => {
+    //    request(app.expressApp)
+    //        .get('/example/person')
+    //        .expect(200)
+    //        .end(function (err, res) {
+    //            expect(res.body.length).to.equal(2);
+    //            done();
+    //        });
+    //});
 
 });
