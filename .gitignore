@@ -4,3 +4,4 @@ typings
 npm-debug.log
 logs
 dist
+db.sqlite

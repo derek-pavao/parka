@@ -4,6 +4,7 @@ export class ParkaConfig {
     public env: string;
     public host: string;
     public port: number;
+    public db: IDbConnection;
 
     constructor(json) {
         for (let key in json) {
@@ -13,3 +14,10 @@ export class ParkaConfig {
         }
     }
 }
+
+interface IDbConnection {
+    client: string;
+    connection: any;
+    useNullAsDefault?: boolean
+}
+

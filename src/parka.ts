@@ -9,3 +9,6 @@ export {POST} from './decorators/post';
 export {PUT} from './decorators/put';
 export {DELETE} from './decorators/delete';
 export {RequestBody} from './decorators/request-body';
+export {ParkaModel} from './core/parka-model';
+
+

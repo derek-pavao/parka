@@ -91,7 +91,7 @@ export class ExampleResource {
     @GET
     @Path('/person')
     public getRandomPerson() {
-
+        return PersonModel.query();
     }
 
 

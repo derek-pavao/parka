@@ -1,7 +1,13 @@
+import {ParkaModel} from '../../../src/parka';
+import {TableName} from "../../../src/decorators/table-name";
 
-import {Model} from "../../../src/decorators/model";
 
-@Model()
-export class PersonModel {
+@TableName('Person')
+export class PersonModel extends ParkaModel {
+
 
 }
+
+console.log('PersonModel.query', PersonModel['query']);
+
+

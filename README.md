@@ -15,7 +15,7 @@ Parka relies on a few npm modules to be installed globally, and has its own cli.
 commands to satisfy these global dependencies
 
 ```bash
-npm install -g parka typescript ts-node pm2 typings
+npm install -g parka typescript ts-node pm2 typings nodemon
 ```
 
 Create a directory for your project and run npm init
