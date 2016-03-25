@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+require('shelljs/global');
+var path = require('path');
+var program = require('commander');
+
+program.parse(process.argv);
+
+
+var appFile = program.args[0];
+var configFile = path.join(process.cwd(), program.args[1]);
+
+
+exec('export PARKA_CONFIG_FILE='+ configFile +' && nodemon -e ts -x ts-node ' + appFile);
+
+
+process.exit(0);
