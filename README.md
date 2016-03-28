@@ -1,4 +1,4 @@
-# Parka
+# Parka [![Build Status](https://travis-ci.org/dotDeeka/parka.svg?branch=master)](https://travis-ci.org/dotDeeka/parka)
 
 Just as a warning Parka is in a total Pre-Alpha stage, it is not feature complete let alone production
 ready.
@@ -30,7 +30,7 @@ npm init
 
 ```
 
-You now have a node project set up. Next we need to add tsconfig.json and typings.json files to 
+You now have a node project set up. Next we need to add tsconfig.json and typings.json files to
 the root of the project
 
 typings.json
