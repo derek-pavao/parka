@@ -6,6 +6,7 @@
   "scripts": {
     "start-example": "ts-node example/app.ts",
     "start-dev": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
+    "preinstall": "npm install typings",
     "tsc": "tsc",
     "typings": "typings",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",

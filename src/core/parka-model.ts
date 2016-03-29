@@ -1,12 +1,9 @@
 import * as knex from 'knex';
 import * as Promise from 'bluebird';
-import {IStaticQuery} from "../interfaces/objection/query-builder";
+import {Model} from 'objection';
 
 
-export class ParkaModel {
-
-    static query: IStaticQuery;
-    static fromJson: Function;
+export class ParkaModel extends Model {
 
 }
 

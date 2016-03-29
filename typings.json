@@ -19,6 +19,7 @@
     "supertest": "registry:dt/supertest#1.1.0+20160317120654"
   },
   "dependencies": {
-    "lodash": "registry:npm/lodash#4.0.0+20160305082308"
+    "lodash": "registry:npm/lodash#4.0.0+20160305082308",
+    "objection": "github:dotDeeka/objection-d-ts/typings.json"
   }
 }

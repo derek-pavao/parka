@@ -1,8 +1,0 @@
-
-
-export interface Model {
-
-
-
-}
-
