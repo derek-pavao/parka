@@ -3,6 +3,8 @@
 Just as a warning Parka is in a total Pre-Alpha stage, it is not feature complete let alone production
 ready.
 
+An example API with Parka will be available at [https://github.com/dotDeeka/parka-todos](https://github.com/dotDeeka/parka-todos)
+
 I suspect that this project will only work with node version 4.x or higher although I haven't tested that
 
 Parka is a simple TypeScript framework/library that runs on Express/NodeJS for building REST services.
@@ -37,11 +39,17 @@ typings.json
 ```json
 {
   "ambientDependencies": {
+    "bluebird": "registry:dt/bluebird#2.0.0+20160319051630",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160317120654",
+    "knex": "registry:dt/knex#0.0.0+20160321150906",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "node": "registry:dt/node#4.0.0+20160319033040",
     "serve-static": "registry:dt/serve-static#0.0.0+20160317120654"
+  },
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160305082308",
+    "objection": "github:dotDeeka/objection-d-ts/typings.json#master"
   }
 }
 ```
@@ -60,9 +68,8 @@ tsconfig.json
   },
   "exclude": [
     "node_modules",
-    "typings/main",
     "typings/browser",
-    "typings/main.d.ts"
+    "typigns/browser.d.ts"
   ],
   "compileOnSave": false
 }
@@ -143,15 +150,14 @@ port: 3000
 ```
 
 #### Starting the application
-We can use the parka cli which wraps pm2 to make it work with TypeScript
+We can use the parka cli which wraps pm2 and nodemon to make it work with TypeScript
 
 ```bash
 # from the root of your project
-parka start application.ts config.yml
+parka watch application.ts config.yml
 ```
+Your app will now be running in development mode and will reload the server on code changes
 
 #### Stopping the application
-Control-C will exit the terminal logging output from express, but the application will still be running in the background. To stop and remove it completely run
-```bash
-parka delete
-```
+Control-C 
+

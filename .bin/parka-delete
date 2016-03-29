@@ -7,5 +7,4 @@ program
     .parse(process.argv);
 
 var appFile = process.argv[2] || 'all';
-console.log('appFile', appFile);
 exec('pm2 delete ' + appFile);

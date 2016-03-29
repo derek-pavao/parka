@@ -3,6 +3,7 @@ node_js:
   - "5.3.0"
 
 script:
+  - npm install -g typescript
   - npm install
   - npm run typings -- install
   - npm test
