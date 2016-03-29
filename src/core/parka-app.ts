@@ -63,7 +63,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[deleteMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    }).catch((err) => res.status(err.statusCode).send(err));
+                    }).catch((err) => res.status(err.statusCode || 500).send(err));
                 });
             });
         }
@@ -84,7 +84,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[putMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    }).catch((err) => res.status(err.statusCode).send(err));
+                    }).catch((err) => res.status(err.statusCode || 500).send(err));
                 });
             });
         }
@@ -105,7 +105,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[postMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    }).catch((err) => res.status(err.statusCode).send(err));
+                    }).catch((err) => res.status(err.statusCode || 500).send(err));
                 });
             });
         }
@@ -126,7 +126,7 @@ export class ParkaApp <T extends ParkaConfig>{
 
                     Promise.resolve(resource[getMethod.methodName].apply(resource, paramList)).then((returnValue) => {
                         res.json(returnValue);
-                    }).catch((err) => res.status(err.statusCode).send(err));
+                    }).catch((err) => res.status(err.statusCode || 500).send(err));
                 });
             });
         }
