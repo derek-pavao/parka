@@ -159,5 +159,4 @@ parka watch application.ts config.yml
 Your app will now be running in development mode and will reload the server on code changes
 
 #### Stopping the application
-Control-C 
-
+Control-C
