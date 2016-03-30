@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "5.3.0"
+
+script:
+  - npm install sqlite3 --build-from-source
+  - npm install -g typings ts-node typescript
+  - npm install
+  - typings install
+  - npm test
