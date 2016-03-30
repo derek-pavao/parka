@@ -1,4 +1,4 @@
-# Parka [ ![Codeship Status for dotDeeka/parka](https://codeship.com/projects/bc35d210-d8ab-0133-4a1f-6a1daaefbd5c/status?branch=master)](https://codeship.com/projects/143274)
+# Parka [![Build Status](https://travis-ci.org/dotDeeka/parka.svg?branch=master)](https://travis-ci.org/dotDeeka/parka)
 
 Just as a warning Parka is in a total Pre-Alpha stage, it is not feature complete let alone production
 ready.
