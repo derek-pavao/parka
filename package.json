@@ -3,6 +3,10 @@
   "version": "0.2.3",
   "description": "",
   "main": "dist/parka.js",
+  "engines": {
+    "node": ">=5.3.0",
+    "npm": "~3.3.12"
+  },
   "scripts": {
     "start-example": "ts-node example/app.ts",
     "start-dev": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
@@ -10,7 +14,7 @@
     "typings": "typings",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
     "build": "rm -rf ./dist && tsc --outDir ./dist",
-    "prepublish": "npm run build",
+    "prepublish": "typings install && npm run build",
     "generate-dts": "dts-generator --project ./ --name parka --out ./dist/parka.d.ts"
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
