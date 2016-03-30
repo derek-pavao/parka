@@ -1,9 +1,13 @@
 language: node_js
 node_js:
   - "5.3.0"
+git:
+  depth: 3
 
 script:
-  - npm install -g typings ts-node typescript
+  - npm install -g typings
+  - npm install -g ts-node
+  - npm install -g typescript
   - npm install
   - typings install
   - npm test
