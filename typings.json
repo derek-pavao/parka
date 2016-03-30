@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "lodash": "registry:npm/lodash#4.0.0+20160305082308",
-    "objection": "github:dotDeeka/objection-d-ts/typings.json"
+    "objection": "github:dotDeeka/objection-d-ts/index.d.ts"
   }
 }
