@@ -2,20 +2,320 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Getting-starteds on Parka</title>
-    <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/</link>
+    <link>http://dotdeeka.github.io/parka/getting-started/</link>
     <description>Recent content in Getting-starteds on Parka</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Apr 2016 18:02:20 -0400</lastBuildDate>
-    <atom:link href="http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dotdeeka.github.io/parka/getting-started/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Getting Started with Parka</title>
-      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/</link>
+      <title>Getting Started Creating the TodoMVC API</title>
+      <link>http://dotdeeka.github.io/parka/getting-started/</link>
       <pubDate>Fri, 01 Apr 2016 18:02:20 -0400</pubDate>
       
-      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/</guid>
-      <description>&lt;p&gt;Here&amp;rsquo;s how you start&lt;/p&gt;
+      <guid>http://dotdeeka.github.io/parka/getting-started/</guid>
+      <description>
+
+&lt;h2 id=&#34;global-dependencies&#34;&gt;Global Dependencies&lt;/h2&gt;
+
+&lt;p&gt;Parka has a few global dependencies&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install -g parka typescript ts-node pm2 nodemon typings
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;a-typical-directory-structure&#34;&gt;A typical Directory Structure&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;├── api // This is the directory that holds all the source files for your application
+│   ├── app-config.ts // The config class for your application
+│   ├── app.ts // The main application class
+│   ├── config.yml // The settings and configuration for your application, you could have more than one of these
+│   ├── models // Data model classes
+│   │   └── todo.ts
+│   └── resources // Resources classes, these classes define your routes
+│       └── todo-resource.ts
+├── dist // If you run parka start with the --production flag, TypeScript file are transpiled here before the app is run
+├── logs // when running app with parka start log files are written here
+├── package.json
+├── tsconfig.json
+├── typings // type definition files for any libraries you&#39;re using. This dir is created by the typings cli
+│   ├── browser
+│   │   ├── ambient
+│   │   └── definitions
+│   ├── browser.d.ts
+│   ├── main
+│   │   ├── ambient
+│   │   └── definitions
+│   └── main.d.ts
+├── typings.json
+└── README.md
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;creating-the-todomvc-api&#34;&gt;Creating the TodoMVC api&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ mkdir todos
+
+# cd to the todos directory
+
+$ cd todos
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;initialize-a-package-json-file&#34;&gt;Initialize a package.json file&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;npm init
+
+# follow the prompts and answer all the question
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;create-a-typings-json&#34;&gt;Create a typings.json&lt;/h2&gt;
+
+&lt;p&gt;This file will hold the type definitions for some of the JS libraries, you&amp;rsquo;ll be adding to this with &lt;code&gt;typings install someJSModule --save&lt;/code&gt; as you develop your app&lt;/p&gt;
+
+&lt;h2 id=&#34;create-a-tsconfig-json&#34;&gt;Create a tsconfig.json&lt;/h2&gt;
+
+&lt;p&gt;This file tells ts-node and the TypeScript compiler how to compile the typescript&lt;/p&gt;
+
+&lt;p&gt;./tsconfig.json&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+  &amp;quot;compilerOptions&amp;quot;: {
+    &amp;quot;module&amp;quot;: &amp;quot;commonjs&amp;quot;,
+    &amp;quot;target&amp;quot;: &amp;quot;es5&amp;quot;,
+    &amp;quot;noImplicitAny&amp;quot;: false,
+    &amp;quot;sourceMap&amp;quot;: true,
+    &amp;quot;moduleResolution&amp;quot;: &amp;quot;node&amp;quot;,
+    &amp;quot;emitDecoratorMetadata&amp;quot;: true,
+    &amp;quot;experimentalDecorators&amp;quot;: true,
+    &amp;quot;rootDir&amp;quot;: &amp;quot;api&amp;quot;,
+    &amp;quot;outDir&amp;quot;: &amp;quot;dist&amp;quot;
+  },
+  &amp;quot;exclude&amp;quot;: [
+    &amp;quot;node_modules&amp;quot;,
+    &amp;quot;typings/browser&amp;quot;,
+    &amp;quot;typigns/browser.d.ts&amp;quot;
+  ],
+  &amp;quot;compileOnSave&amp;quot;: false
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;./typings.json&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+  &amp;quot;ambientDependencies&amp;quot;: {
+    &amp;quot;bluebird&amp;quot;: &amp;quot;registry:dt/bluebird#2.0.0+20160319051630&amp;quot;,
+    &amp;quot;express&amp;quot;: &amp;quot;registry:dt/express#4.0.0+20160317120654&amp;quot;,
+    &amp;quot;express-serve-static-core&amp;quot;: &amp;quot;registry:dt/express-serve-static-core#0.0.0+20160317120654&amp;quot;,
+    &amp;quot;knex&amp;quot;: &amp;quot;registry:dt/knex#0.0.0+20160321150906&amp;quot;,
+    &amp;quot;mime&amp;quot;: &amp;quot;registry:dt/mime#0.0.0+20160316155526&amp;quot;,
+    &amp;quot;node&amp;quot;: &amp;quot;registry:dt/node#4.0.0+20160319033040&amp;quot;,
+    &amp;quot;serve-static&amp;quot;: &amp;quot;registry:dt/serve-static#0.0.0+20160317120654&amp;quot;
+  },
+  &amp;quot;dependencies&amp;quot;: {
+    &amp;quot;lodash&amp;quot;: &amp;quot;registry:npm/lodash#4.0.0+20160305082308&amp;quot;,
+    &amp;quot;objection&amp;quot;: &amp;quot;github:dotDeeka/objection-d-ts/typings.json#master&amp;quot;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;installing-our-typings-and-parka-locally&#34;&gt;Installing our typings and Parka locally&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install parka --save
+$ typings install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;app-files&#34;&gt;App Files&lt;/h1&gt;
+
+&lt;p&gt;Now that we&amp;rsquo;re set up we can get started on the application it self. Every Parka app requires a main application class, a configuration class and a config.yml file. When a Parka app boots up,
+the configuration yaml file is deserialized into an instance of your configuration class, this is a great place to put environment specific parameters, database connection parameters and such.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll put all of our source files in a directory &lt;code&gt;./api&lt;/code&gt;, we could call this anything really. Typical names would also be &lt;code&gt;./app&lt;/code&gt; or &lt;code&gt;./src&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-a-configuration-class&#34;&gt;Creating a configuration class&lt;/h2&gt;
+
+&lt;p&gt;Our configuration class here is going to be extremely simple. Its going to be empty. However we&amp;rsquo;re going to extend ParkaConfig which will handle configuration for things like database connections.&lt;/p&gt;
+
+&lt;p&gt;./api/app-config.ts&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaConfig} from &#39;parka&#39;;
+
+export class AppConfig extends ParkaConfig {
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;config-yml&#34;&gt;config.yml&lt;/h2&gt;
+
+&lt;p&gt;When you start your app you will give it a configuration yaml file to use. You would probably have a few of these for different environments. But here we&amp;rsquo;re just going to have one
+with some simple database connection parameters defined in it.&lt;/p&gt;
+
+&lt;p&gt;./api/config.yml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;appName: TodoMVC-API
+env: dev
+host: 127.0.0.1
+port: 3000
+db:
+  client: sqlite3
+  connection:
+    filename: ./db.sqlite
+  useNullAsDefault: true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;install-sqlite3&#34;&gt;Install sqlite3&lt;/h2&gt;
+
+&lt;p&gt;You will mostlikely need to install sqlite3 on your system using a package manager, and the npm module for it&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# This command is for OSX users using homebrew, For other package managers apt, yum, NuGet you will have to google it
+$ brew install sqlite3
+
+$ npm install sqlite3 --save
+
+# create the database file, this also logs you in
+$ sqlite3 db.sqlite
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Execute the following create table statement to create our Todo table&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;CREATE TABLE Todo (
+  id INTEGER PRIMARY KEY,
+  title varchar(255) NOT NULL,
+  description TEXT NOT NULL,
+  done INTEGER
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;$ .exit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;creating-an-application-class&#34;&gt;Creating an application class&lt;/h2&gt;
+
+&lt;p&gt;Our application class is the main entry point into our application. It is where we will register all our Resource Classes with Parka. Registering these
+classes will take place in the &lt;code&gt;onBeforeApplicationStart()&lt;/code&gt; lifecycle callback&lt;/p&gt;
+
+&lt;p&gt;./api/app.ts&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaApp} from &#39;parka&#39;;
+import {AppConfig} from &#39;./app-config&#39;;
+import {TodoResource} from &#39;./resources/todo-resource&#39;;
+
+class App extends ParkaApp&amp;lt;AppConfig&amp;gt; {
+
+  public onBeforeApplicationStart() {
+
+    this.registerResource(TodoResource);
+  }
+}
+
+// Instatiate and export a new instance of your application
+export let app = new App(AppConfig);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;creating-a-model-to-represent-our-todo&#34;&gt;Creating a Model to represent our Todo&lt;/h2&gt;
+
+&lt;p&gt;./api/models/todo.ts&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+
+@TableName(&#39;Todo&#39;)
+export let Todo extend ParkaModel {
+
+  public static jsonSchema = {
+    type: &#39;object&#39;,
+    required: [&#39;title&#39;, &#39;description&#39;],
+
+    properties: {
+      title: {
+        type: &#39;string&#39;,
+        maxLength: 50
+      },
+      description: {
+        type: &#39;string&#39;
+      },
+      done: {
+        type: &#39;integer&#39;,
+        default: 0
+      }
+    }
+  };
+
+  public title: string;
+  public description: string;
+  public done: number;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This model is using Objection.js, you can read more about it in the DatabaseAccess section of these docs.&lt;/p&gt;
+
+&lt;h2 id=&#34;routes-and-resource-classes&#34;&gt;Routes and Resource classes&lt;/h2&gt;
+
+&lt;p&gt;We are going to create a resource class that will define routes to do simple CRUD on a Todo. More info
+on defining Resource Classes can be found in the Resource Classes section of these docs&lt;/p&gt;
+
+&lt;p&gt;./api/resources/todo-resource.ts&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {
+    Path,
+    GET,
+    POST,
+    PUT,
+    RequestBody,
+    PathParam
+} from &#39;parka&#39;;
+
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+    @GET
+    public getListOfTodos() {
+
+        return Todo.query();
+    }
+
+    @GET
+    @Path(&#39;/:id&#39;)
+    public getTodoById(@PathParam(&#39;id&#39;) id: string) {
+
+        return Todo.query()
+            .findById(id);
+    }
+
+    @POST
+    public createNewTodo(@RequestBody(Todo) todo: Todo) {
+
+        return Todo.query()
+            .insert(todo);
+    }
+
+    @PUT
+    @Path(&#39;/:id&#39;)
+    public updateTodo(@PathParam(&#39;id&#39;) id: string,
+                      @RequestBody(Todo) todo: Todo): any {
+
+        if (todo.id !== Number(id)) {
+
+            return Promise.reject({statusCode: 419, message: &#39;Conflict there was a id mismatch&#39;});
+        } else {
+            return Todo.query()
+                .updateAndFetchById(id, todo);
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;run-the-app&#34;&gt;Run the app&lt;/h2&gt;
+
+&lt;p&gt;Lets run the app in dev mode where it will watch for changes and reload the app when they occur. From the root
+directory of the project run&amp;hellip;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ parka watch api/app.ts api/config.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Your app should be running on &lt;a href=&#34;http://localhost:3000&#34;&gt;http://localhost:3000&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

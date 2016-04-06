@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Resource-classes on Parka</title>
-    <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</link>
+    <link>http://dotdeeka.github.io/parka/resource-classes/</link>
     <description>Recent content in Resource-classes on Parka</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Apr 2016 19:37:59 -0400</lastBuildDate>
-    <atom:link href="http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dotdeeka.github.io/parka/resource-classes/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Resource Classes</title>
-      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</link>
+      <link>http://dotdeeka.github.io/parka/resource-classes/</link>
       <pubDate>Fri, 01 Apr 2016 19:37:59 -0400</pubDate>
       
-      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</guid>
+      <guid>http://dotdeeka.github.io/parka/resource-classes/</guid>
       <description>
 
 &lt;p&gt;As mentioned on the main page. In Parka, routes are defined as part of Resource classes. These

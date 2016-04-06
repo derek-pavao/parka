@@ -1,0 +1,7 @@
+.idea
+node_modules
+typings
+npm-debug.log
+logs
+dist
+db.sqlite
