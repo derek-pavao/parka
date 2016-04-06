@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Database-accesses on Parka</title>
+    <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/</link>
+    <description>Recent content in Database-accesses on Parka</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Apr 2016 15:56:40 -0400</lastBuildDate>
+    <atom:link href="http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Database Access</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/</link>
+      <pubDate>Tue, 05 Apr 2016 15:56:40 -0400</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/</guid>
+      <description>
+
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;Parka uses a great lightweight ORM that mostly stays out of the developers way.
+&lt;a href=&#34;http://vincit.github.io/objection.js/#relationexpression&#34;&gt;Objection.js&lt;/a&gt;. And Parka mostly stays out of the way
+as well.&lt;/p&gt;
+
+&lt;p&gt;The only thing required for a model from Parka is that you extend &lt;code&gt;ParkaModel&lt;/code&gt; and you decorate your model class
+with &lt;code&gt;@TableName(&#39;name_of_the_table&#39;)&lt;/code&gt; Other than that, its just Objection.js&lt;/p&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;The Todos model&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+
+@TableName(&#39;Todo&#39;)
+export let Todo extend ParkaModel {
+
+  public title: string;
+  public description: string;
+  public done: number;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;validation&#34;&gt;Validation&lt;/h2&gt;
+
+&lt;p&gt;Objection.js validates models by a &lt;a href=&#34;http://json-schema.org/&#34;&gt;JsonSchema&lt;/a&gt; definition defined as a static property on your model.
+For example to define our Todo model and make title and description required, give title a maximum length, and give done a
+default value of 0, it would look like the following;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+
+@TableName(&#39;Todo&#39;)
+export let Todo extend ParkaModel {
+
+  public static jsonSchema = {
+    type: &#39;object&#39;,
+    required: [&#39;title&#39;, &#39;description&#39;],
+
+    properties: {
+      title: {
+        type: &#39;string&#39;,
+        maxLength: 50
+      },
+      description: {
+        type: &#39;string&#39;
+      },
+      done: {
+        type: &#39;integer&#39;,
+        default: 0
+      }
+    }
+  };
+
+  public title: string;
+  public description: string;
+  public done: number;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the future it is possible that Parka will provide some syntactic sugar for defining these constraints, mostlikely with
+decorator metadata. However, for now defining the static jsonSchema property is easy enough.&lt;/p&gt;
+
+&lt;p&gt;For more information on &lt;a href=&#34;http://vincit.github.io/objection.js/#relationexpression&#34;&gt;Objection.js&lt;/a&gt; check out their website&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Promises and Objection.js&amp;#39;s QueryBuilder&lt;/p&gt;
+&lt;p&gt;Objection.js uses Promises/Thenables and Parka is designed to work well with them. Objection.js&amp;rsquo;s query methods all return an
+instance of their QueryBuilder. If you return a QueryBuilder instance or a Promise/Thenable from any Parka Resource method, Parka
+will wait till that call is resolved completely and then return the resolved value to the client.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;example-w-promises&#34;&gt;Example w/ Promises&lt;/h2&gt;
+
+&lt;p&gt;Our Todo model above inherits some methods from Objection.js, one of which is &lt;code&gt;query()&lt;/code&gt;. The query() method returns a promise
+that resolves with a complete list of everything from the given models table, i.e. Todo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos() {
+    return Todo.query();
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets say you had two lists of models you wanted to return in the same request&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+import {AnotherModel} from &#39;../models/todo&#39;;
+import * as Promise from &#39;bluebird&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  @Path(&#39;/with-other-model&#39;)
+  public getListOfTodosWithOtherModelList() {
+
+    return Promise.all([
+      Todo.query(),
+      AnotherModel.query()
+    ])
+    .spread(function (todos, otherModels) {
+      return {
+        todos: todos,
+        otherModels: otherModels
+      };
+    });
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the above examples, Parka will handle returning the resolved value to the client for you. For more info check out the section
+of these docs about Resource Classes&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <title>Resource Classes - Parka</title>
+    <meta name="generator" content="Hugo 0.15" />
+
+    
+    <meta name="description" content="Documentation for the TypeScript server framework, Parka.">
+    
+    <link rel="canonical" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/">
+    
+    <meta name="author" content="Derek Pavao">
+    
+
+    <meta property="og:url" content="http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/">
+    <meta property="og:title" content="Parka">
+    <meta property="og:image" content="http://parka-docs.s3-website-us-east-1.amazonaws.com/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Parka">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('http://parka-docs.s3-website-us-east-1.amazonaws.com/fonts/icon.eot?52m981');
+        src: url('http://parka-docs.s3-website-us-east-1.amazonaws.com/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+             url('http://parka-docs.s3-website-us-east-1.amazonaws.com/fonts/icon.woff?52m981')
+               format('woff'),
+             url('http://parka-docs.s3-website-us-east-1.amazonaws.com/fonts/icon.ttf?52m981')
+               format('truetype'),
+             url('http://parka-docs.s3-website-us-east-1.amazonaws.com/fonts/icon.svg?52m981#icon')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/stylesheets/application.css">
+    <link rel="stylesheet" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/stylesheets/palettes.css">
+    <link rel="stylesheet" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu%2bMono">
+    <style>
+      body, input {
+        font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+    
+    
+    <script src="http://parka-docs.s3-website-us-east-1.amazonaws.com/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-blue palette-accent-light green">
+
+
+
+	
+	
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        Resource Classes
+      </div>
+    </div>
+
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+      <a href="https://github.com/dotDeeka" title="@dotDeeka on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="http://parka-docs.s3-website-us-east-1.amazonaws.com/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://parka-docs.s3-website-us-east-1.amazonaws.com/images/logo.png">
+        </div>
+      
+      <div class="name">
+        <strong>Parka <span class="version">0.2.3</span></strong>
+        
+      </div>
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            <a href="http://parka-docs.s3-website-us-east-1.amazonaws.com/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="http://parka-docs.s3-website-us-east-1.amazonaws.com/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+<a  title="Parka" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/">
+	Parka
+</a>
+
+  
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+<a  title="Getting started" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/">
+	Getting started
+</a>
+
+  
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+<a class="current" title="Resource Classes" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/">
+	Resource Classes
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+  
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+<a  title="Database Access" href="http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/">
+	Database Access
+</a>
+
+  
+  
+</li>
+
+        </ul>
+        
+
+        
+        <hr>
+        <span class="section">The author</span>
+        
+        <ul>
+          
+
+          
+          <li>
+            <a href="https://github.com/dotDeeka" target="_blank" title="@dotDeeka on GitHub">
+              @dotDeeka on GitHub
+            </a>
+          </li>
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Resource Classes </h1>
+
+			
+
+<p>As mentioned on the main page. In Parka, routes are defined as part of Resource classes. These
+classes and their methods are decorated with the appropriate decorators in order to tell Parka what methods should
+respond to which routes.</p>
+
+<p>In the following examples and in all examples on this docs site we will be using an API for the typical TodoMVC application.
+Sorry, I couldn&rsquo;t think of anything more exciting. Also, these examples will have some code from the ORM used in Parka,
+<a href="http://vincit.github.io/objection.js/">Objection.js</a>, we&rsquo;ll talk in detail about the ORM in another section.</p>
+
+<h2 id="basic-get-request">Basic GET Request</h2>
+
+<p>Lets ignore the fact that we haven&rsquo;t talked about database access yet. Just note that all the methods of the ORM
+return Promsies, so every resource method will return to the client the value those Promises are resolve with.</p>
+
+<pre><code class="language-javascript">import {Path, GET} from 'parka';
+import {Todo} from '../models/todo';
+
+
+@Path('/todo')
+export class TodoResource {
+
+  @GET
+  public getListOfTodos() {
+    return Todo.query();
+  }
+
+}
+</code></pre>
+
+<p>In the code above we have some slightly different code than the first example. The class stills has the
+<code>@Path('/todo')</code> decorator on it. but note, the <code>getListOfTodos()</code> method does not have a <code>@Path()</code>
+decorator at all, only a <code>@GET</code>. In this case the <code>getListOfTodos()</code> method will be mapped to the route url
+for this resource class. When a user makes a get request to <code>GET http://&lt;my_url&gt;/todo</code> they will be returned a JSON array
+of all the Todo objects in the database.</p>
+
+<h2 id="path-parameters">Path Parameters</h2>
+
+<p>Paths often contain parameters we need to parse, for example when getting just one Todo out of the database. Lets see
+what that looks like.</p>
+
+<pre><code class="language-javascript">import {Path, PathParam, GET} from 'parka';
+import {Todo} from '../models/todo';
+
+
+@Path('/todo')
+export class TodoResource {
+
+  @GET
+  @Path('/:id')
+  public getTodo( @PathParam('id') id ) {
+    return Todo.query()
+               .findById(id);
+  }
+
+}
+</code></pre>
+
+<p>In this code we see the <code>@Path('/:id')</code>. The string passed to the Path decorator is a pass through directly to Express.
+So any valid parameter value in Express is valid here. Then in our method signature we see our id parameter is decorated with
+<code>@PathParam('id')</code>. The string passed to the PathParam decorator should match the named route param passed the the <code>@Path()</code>
+decorator. NOTE: Currently all <code>@PathParam()</code>&rsquo;s are passed as strings</p>
+
+<h2 id="query-parameters">Query Parameters</h2>
+
+<p>Endpoints can some times have query parameters to define optional parameters that may be sent to the server. One example
+of this is defining what order an array of results should be returned in. Lets build on our previous example of getting a list of
+todos from the database.</p>
+
+<pre><code class="language-javascript">import {Path, PathParam, GET, QueryParam} from 'parka';
+import {Todo} from '../models/todo';
+
+
+@Path('/todo')
+export class TodoResource {
+
+  @GET
+  public getListOfTodos( @QueryParam('sortOrder') sortOrder ) {
+    sortOrder = sortOrder || 'asc';
+
+    return Todo.query()
+               .orderBy('id', sortOrder);
+  }
+
+}
+</code></pre>
+
+<p>This example is almost exactly the same as our previous example, but with the adition of parameter
+to our route method, <code>sortOrder</code>. <code>sortOrder</code> is annotated with <code>@QueryParam('sortOrder')</code> this will
+map a query parameter in the URL named <code>sortOrder</code> to this parameter of our method, also named <code>sortOrder</code>.
+For example: A user makes a request to <code>GET http://&lt;my_url&gt;/todo?sortOrder=desc</code> a list of todos from the
+database will be returned as before. Except, this time they will be in reverse order.</p>
+
+<h2 id="request-body">Request Body</h2>
+
+<p>POST requests (and others) often contain a body to the request. Reading that body, as an instance of one of your models,
+is very easy with Parka. This is an example of creating a new Todo.</p>
+
+<pre><code class="language-javascript">import {Path, PathParam, POST, QueryParam} from 'parka';
+import {Todo} from '../models/todo';
+
+
+@Path('/todo')
+export class TodoResource {
+
+  @POST
+  public createNewTodo(@RequestBody(Todo) todo) {
+
+    return Todo.query()
+               .insert(todo);
+  }
+
+}
+</code></pre>
+
+<p>The <code>@RequestBody</code> gets passed one parameter, the Constructor for the class you want to create. When parka parses the request
+it will take the request body and create a new instance of the Constructor and pass it in as the todo parameter in this example.</p>
+
+<p>One main advantage of doing this is that Objection.js (the ORM being used under the hood) does validation on the models
+every time an instance is created. If the request body is not a valid Todo model, Objection.js will throw a ValidationError error,
+and execution of this request will be halted and the error will be returned to the client.</p>
+
+<div class="admonition note">
+<p class="admonition-title">Validation Errors from Objection.js</p>
+<p>Currently when Objection.js raises a ValidationError the response returned to the client is NOT in JSON format. This is something
+I plan to change in the near future. An overarching goal of Parka is to always return JSON to the client and never plain text.</p>
+</div>
+
+			
+			<aside class="copyright" role="note">
+				
+				&copy; 2016 Released under the MIT license &ndash;
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">
+					Material
+				</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/" title="Getting Started with Parka">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Getting Started with Parka
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/" title="Database Access">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Database Access
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = '';
+      var repo_id  = '';
+    
+    </script>
+
+    <script src="http://parka-docs.s3-website-us-east-1.amazonaws.com/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(headers.length > 0) {
+        for(var i = 0; i < headers.length; i++) {
+          var li = document.createElement("li");
+          li.setAttribute("class", "anchor");
+
+          var a  = document.createElement("a");
+          a.setAttribute("href", "#" + headers[i].id);
+          a.setAttribute("title", headers[i].innerHTML);
+          a.innerHTML = headers[i].innerHTML;
+          
+          li.appendChild(a)
+          scrollspy.appendChild(li);
+        }
+      } else {
+        scrollspy.parentElement.removeChild(scrollspy)
+      }
+      
+
+      /* Add permanent link next to the headers */
+      var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+      for(var i = 0; i < headers.length; i++) {
+          var a = document.createElement("a");
+          a.setAttribute("class", "headerlink");
+          a.setAttribute("href", "#" + headers[i].id);
+          a.setAttribute("title", "Permanent link")
+          a.innerHTML = "#";
+          headers[i].appendChild(a);
+      }
+    </script>
+
+    
+
+    <script src="//gohugo.io/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

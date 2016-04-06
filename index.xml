@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Parka</title>
+    <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/</link>
+    <description>Recent content on Parka</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Apr 2016 15:56:40 -0400</lastBuildDate>
+    <atom:link href="http://parka-docs.s3-website-us-east-1.amazonaws.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Database Access</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/</link>
+      <pubDate>Tue, 05 Apr 2016 15:56:40 -0400</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/database-access/</guid>
+      <description>
+
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;Parka uses a great lightweight ORM that mostly stays out of the developers way.
+&lt;a href=&#34;http://vincit.github.io/objection.js/#relationexpression&#34;&gt;Objection.js&lt;/a&gt;. And Parka mostly stays out of the way
+as well.&lt;/p&gt;
+
+&lt;p&gt;The only thing required for a model from Parka is that you extend &lt;code&gt;ParkaModel&lt;/code&gt; and you decorate your model class
+with &lt;code&gt;@TableName(&#39;name_of_the_table&#39;)&lt;/code&gt; Other than that, its just Objection.js&lt;/p&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;The Todos model&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+
+@TableName(&#39;Todo&#39;)
+export let Todo extend ParkaModel {
+
+  public title: string;
+  public description: string;
+  public done: number;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;validation&#34;&gt;Validation&lt;/h2&gt;
+
+&lt;p&gt;Objection.js validates models by a &lt;a href=&#34;http://json-schema.org/&#34;&gt;JsonSchema&lt;/a&gt; definition defined as a static property on your model.
+For example to define our Todo model and make title and description required, give title a maximum length, and give done a
+default value of 0, it would look like the following;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+
+@TableName(&#39;Todo&#39;)
+export let Todo extend ParkaModel {
+
+  public static jsonSchema = {
+    type: &#39;object&#39;,
+    required: [&#39;title&#39;, &#39;description&#39;],
+
+    properties: {
+      title: {
+        type: &#39;string&#39;,
+        maxLength: 50
+      },
+      description: {
+        type: &#39;string&#39;
+      },
+      done: {
+        type: &#39;integer&#39;,
+        default: 0
+      }
+    }
+  };
+
+  public title: string;
+  public description: string;
+  public done: number;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the future it is possible that Parka will provide some syntactic sugar for defining these constraints, mostlikely with
+decorator metadata. However, for now defining the static jsonSchema property is easy enough.&lt;/p&gt;
+
+&lt;p&gt;For more information on &lt;a href=&#34;http://vincit.github.io/objection.js/#relationexpression&#34;&gt;Objection.js&lt;/a&gt; check out their website&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Promises and Objection.js&amp;#39;s QueryBuilder&lt;/p&gt;
+&lt;p&gt;Objection.js uses Promises/Thenables and Parka is designed to work well with them. Objection.js&amp;rsquo;s query methods all return an
+instance of their QueryBuilder. If you return a QueryBuilder instance or a Promise/Thenable from any Parka Resource method, Parka
+will wait till that call is resolved completely and then return the resolved value to the client.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;example-w-promises&#34;&gt;Example w/ Promises&lt;/h2&gt;
+
+&lt;p&gt;Our Todo model above inherits some methods from Objection.js, one of which is &lt;code&gt;query()&lt;/code&gt;. The query() method returns a promise
+that resolves with a complete list of everything from the given models table, i.e. Todo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos() {
+    return Todo.query();
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets say you had two lists of models you wanted to return in the same request&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+import {AnotherModel} from &#39;../models/todo&#39;;
+import * as Promise from &#39;bluebird&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  @Path(&#39;/with-other-model&#39;)
+  public getListOfTodosWithOtherModelList() {
+
+    return Promise.all([
+      Todo.query(),
+      AnotherModel.query()
+    ])
+    .spread(function (todos, otherModels) {
+      return {
+        todos: todos,
+        otherModels: otherModels
+      };
+    });
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the above examples, Parka will handle returning the resolved value to the client for you. For more info check out the section
+of these docs about Resource Classes&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Resource Classes</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</link>
+      <pubDate>Fri, 01 Apr 2016 19:37:59 -0400</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</guid>
+      <description>
+
+&lt;p&gt;As mentioned on the main page. In Parka, routes are defined as part of Resource classes. These
+classes and their methods are decorated with the appropriate decorators in order to tell Parka what methods should
+respond to which routes.&lt;/p&gt;
+
+&lt;p&gt;In the following examples and in all examples on this docs site we will be using an API for the typical TodoMVC application.
+Sorry, I couldn&amp;rsquo;t think of anything more exciting. Also, these examples will have some code from the ORM used in Parka,
+&lt;a href=&#34;http://vincit.github.io/objection.js/&#34;&gt;Objection.js&lt;/a&gt;, we&amp;rsquo;ll talk in detail about the ORM in another section.&lt;/p&gt;
+
+&lt;h2 id=&#34;basic-get-request&#34;&gt;Basic GET Request&lt;/h2&gt;
+
+&lt;p&gt;Lets ignore the fact that we haven&amp;rsquo;t talked about database access yet. Just note that all the methods of the ORM
+return Promsies, so every resource method will return to the client the value those Promises are resolve with.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos() {
+    return Todo.query();
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the code above we have some slightly different code than the first example. The class stills has the
+&lt;code&gt;@Path(&#39;/todo&#39;)&lt;/code&gt; decorator on it. but note, the &lt;code&gt;getListOfTodos()&lt;/code&gt; method does not have a &lt;code&gt;@Path()&lt;/code&gt;
+decorator at all, only a &lt;code&gt;@GET&lt;/code&gt;. In this case the &lt;code&gt;getListOfTodos()&lt;/code&gt; method will be mapped to the route url
+for this resource class. When a user makes a get request to &lt;code&gt;GET http://&amp;lt;my_url&amp;gt;/todo&lt;/code&gt; they will be returned a JSON array
+of all the Todo objects in the database.&lt;/p&gt;
+
+&lt;h2 id=&#34;path-parameters&#34;&gt;Path Parameters&lt;/h2&gt;
+
+&lt;p&gt;Paths often contain parameters we need to parse, for example when getting just one Todo out of the database. Lets see
+what that looks like.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  @Path(&#39;/:id&#39;)
+  public getTodo( @PathParam(&#39;id&#39;) id ) {
+    return Todo.query()
+               .findById(id);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this code we see the &lt;code&gt;@Path(&#39;/:id&#39;)&lt;/code&gt;. The string passed to the Path decorator is a pass through directly to Express.
+So any valid parameter value in Express is valid here. Then in our method signature we see our id parameter is decorated with
+&lt;code&gt;@PathParam(&#39;id&#39;)&lt;/code&gt;. The string passed to the PathParam decorator should match the named route param passed the the &lt;code&gt;@Path()&lt;/code&gt;
+decorator. NOTE: Currently all &lt;code&gt;@PathParam()&lt;/code&gt;&amp;rsquo;s are passed as strings&lt;/p&gt;
+
+&lt;h2 id=&#34;query-parameters&#34;&gt;Query Parameters&lt;/h2&gt;
+
+&lt;p&gt;Endpoints can some times have query parameters to define optional parameters that may be sent to the server. One example
+of this is defining what order an array of results should be returned in. Lets build on our previous example of getting a list of
+todos from the database.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, GET, QueryParam} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos( @QueryParam(&#39;sortOrder&#39;) sortOrder ) {
+    sortOrder = sortOrder || &#39;asc&#39;;
+
+    return Todo.query()
+               .orderBy(&#39;id&#39;, sortOrder);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This example is almost exactly the same as our previous example, but with the adition of parameter
+to our route method, &lt;code&gt;sortOrder&lt;/code&gt;. &lt;code&gt;sortOrder&lt;/code&gt; is annotated with &lt;code&gt;@QueryParam(&#39;sortOrder&#39;)&lt;/code&gt; this will
+map a query parameter in the URL named &lt;code&gt;sortOrder&lt;/code&gt; to this parameter of our method, also named &lt;code&gt;sortOrder&lt;/code&gt;.
+For example: A user makes a request to &lt;code&gt;GET http://&amp;lt;my_url&amp;gt;/todo?sortOrder=desc&lt;/code&gt; a list of todos from the
+database will be returned as before. Except, this time they will be in reverse order.&lt;/p&gt;
+
+&lt;h2 id=&#34;request-body&#34;&gt;Request Body&lt;/h2&gt;
+
+&lt;p&gt;POST requests (and others) often contain a body to the request. Reading that body, as an instance of one of your models,
+is very easy with Parka. This is an example of creating a new Todo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, POST, QueryParam} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @POST
+  public createNewTodo(@RequestBody(Todo) todo) {
+
+    return Todo.query()
+               .insert(todo);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;@RequestBody&lt;/code&gt; gets passed one parameter, the Constructor for the class you want to create. When parka parses the request
+it will take the request body and create a new instance of the Constructor and pass it in as the todo parameter in this example.&lt;/p&gt;
+
+&lt;p&gt;One main advantage of doing this is that Objection.js (the ORM being used under the hood) does validation on the models
+every time an instance is created. If the request body is not a valid Todo model, Objection.js will throw a ValidationError error,
+and execution of this request will be halted and the error will be returned to the client.&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Validation Errors from Objection.js&lt;/p&gt;
+&lt;p&gt;Currently when Objection.js raises a ValidationError the response returned to the client is NOT in JSON format. This is something
+I plan to change in the near future. An overarching goal of Parka is to always return JSON to the client and never plain text.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Getting Started with Parka</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/</link>
+      <pubDate>Fri, 01 Apr 2016 18:02:20 -0400</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/getting-started/</guid>
+      <description>&lt;p&gt;Here&amp;rsquo;s how you start&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Parka</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/</link>
+      <pubDate>Tue, 08 Mar 2016 21:07:13 +0100</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/</guid>
+      <description>
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Not Production Ready&lt;/p&gt;
+&lt;p&gt;Parka is still in a pre-alpha type state, and is not feature complete let alone stable and ready for the prime time&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;what-is-parka&#34;&gt;What is Parka?&lt;/h2&gt;
+
+&lt;p&gt;Parka is a server side framework that allows you to write simple REST services in TypeScript. It allows you to take advantage
+of TypeScript decorators to do things like define routes in a simple and declaritive way. Parka takes its inspiration from
+mainly two frameworks, &lt;a href=&#34;http://www.dropwizard.io/&#34;&gt;Dropwizard&lt;/a&gt; (a JAX-RS framework for Java) and &lt;a href=&#34;http://redstonedart.org/&#34;&gt;Redstone&lt;/a&gt;
+a micro framework for the Dart programming language.&lt;/p&gt;
+
+&lt;p&gt;Like Dropwizard I&amp;rsquo;m not sure if Parka is really a framework or a library. Its really just a thin layer that sits ontop of
+Express.js and runs as a NodeJS application. It is simple, but what you end up with is a very clean and declaritive
+way to write a REST API with Object Oriented style code.&lt;/p&gt;
+
+&lt;h2 id=&#34;why-parka&#34;&gt;Why Parka?&lt;/h2&gt;
+
+&lt;p&gt;A while back I had been playing around with the Dart language and saw the Redstone.dart framework. I liked both Dart and the
+Redstone framework. However, the fact that I was a novice in Dart meant it took me a while to get anything done, so I ended
+up going back to writing my side projects in NodeJS. Fast forward a few years and TypeScript is all the rage right now with
+the guys on the Angular team at Google getting behind it and all. TypeScript has support for Decorators (which are similar
+enough to Annotations that are present in languages like Java or Dart. The differences between these two I will save for another
+time). Decorators would allow a framework like Redstone or Dropwizard to be writtin in TypeScript. And given TypeScript&amp;rsquo;s
+great interop with the existing JavaScript ecosystem it makes a lot of sense.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-routing-example&#34;&gt;A Routing Example&lt;/h2&gt;
+
+&lt;h3 id=&#34;defining-a-resource-class&#34;&gt;Defining a Resource Class&lt;/h3&gt;
+
+&lt;p&gt;In Parka, routes are defined as part of Resource classes. These classes and their methods are decorated with the appropriate
+decorators in order to tell Parka what methods should respond to which routes.&lt;/p&gt;
+
+&lt;p&gt;In the following examples and in all examples on this docs site we will be using an API for the typical TodoMVC application.
+Sorry, I couldn&amp;rsquo;t think of anything more exciting. Also, these examples will have some code from the ORM used in Parka,
+&lt;a href=&#34;http://vincit.github.io/objection.js/&#34;&gt;Objection.js&lt;/a&gt;, we&amp;rsquo;ll get back to the ORM later.&lt;/p&gt;
+
+&lt;h3 id=&#34;lets-start-with-a-resource-method-that-will-just-return-us-some-static-json-so-we-can-be-sure-it-is-working&#34;&gt;Lets start with a resource method that will just return us some static json so we can be sure it is working&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  @Path(&#39;/status&#39;)
+  public returnStatus() {
+
+    return {
+      status: &#39;OK&#39;
+    }
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets go over what this Resource Class does (when we register it with the Parka application, not shown here).
+First we have two &lt;code&gt;@Path()&lt;/code&gt; decorators, one on the class it self, and one on the &lt;code&gt;returnStatus()&lt;/code&gt; method.
+The &lt;code&gt;@Path()&lt;/code&gt; decorator on the class defines the root path for the entire resource class. And the &lt;code&gt;@Path()&lt;/code&gt;
+decorator on the &lt;code&gt;returnStatus()&lt;/code&gt; method is added to that root path to form the route that gets registered. In addition
+to the &lt;code&gt;@Path()&lt;/code&gt; decorators the &lt;code&gt;returnStatus()&lt;/code&gt; method has a &lt;code&gt;@GET&lt;/code&gt; decorator on it. This decorator signifies
+which HTTP verb this method will respond to.&lt;/p&gt;
+
+&lt;p&gt;For example. When this code above is registered with Parka a route for &lt;code&gt;GET http://&amp;lt;my_url&amp;gt;/todo/status&lt;/code&gt; will be registered
+and when a user makes a GET request to that url they will get the &lt;code&gt;{ &amp;quot;status&amp;quot;: &amp;quot;OK&amp;quot; }&lt;/code&gt; JSON back as a response&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;A Note on Promises / Thenables&lt;/p&gt;
+&lt;p&gt;Parka has support for Promises and Thenables. If any Resource method returns a Promise or a Thenable, Parka will wait
+till that promise is resolved and then return to the client whatever data the Promise was resolve with. Support for Promises
+comes from the great &lt;a href=&#34;http://bluebirdjs.com/&#34;&gt;Bluebird&lt;/a&gt; library.&lt;/p&gt;
+&lt;/div&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

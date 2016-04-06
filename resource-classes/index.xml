@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Resource-classes on Parka</title>
+    <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</link>
+    <description>Recent content in Resource-classes on Parka</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Apr 2016 19:37:59 -0400</lastBuildDate>
+    <atom:link href="http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Resource Classes</title>
+      <link>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</link>
+      <pubDate>Fri, 01 Apr 2016 19:37:59 -0400</pubDate>
+      
+      <guid>http://parka-docs.s3-website-us-east-1.amazonaws.com/resource-classes/</guid>
+      <description>
+
+&lt;p&gt;As mentioned on the main page. In Parka, routes are defined as part of Resource classes. These
+classes and their methods are decorated with the appropriate decorators in order to tell Parka what methods should
+respond to which routes.&lt;/p&gt;
+
+&lt;p&gt;In the following examples and in all examples on this docs site we will be using an API for the typical TodoMVC application.
+Sorry, I couldn&amp;rsquo;t think of anything more exciting. Also, these examples will have some code from the ORM used in Parka,
+&lt;a href=&#34;http://vincit.github.io/objection.js/&#34;&gt;Objection.js&lt;/a&gt;, we&amp;rsquo;ll talk in detail about the ORM in another section.&lt;/p&gt;
+
+&lt;h2 id=&#34;basic-get-request&#34;&gt;Basic GET Request&lt;/h2&gt;
+
+&lt;p&gt;Lets ignore the fact that we haven&amp;rsquo;t talked about database access yet. Just note that all the methods of the ORM
+return Promsies, so every resource method will return to the client the value those Promises are resolve with.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos() {
+    return Todo.query();
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the code above we have some slightly different code than the first example. The class stills has the
+&lt;code&gt;@Path(&#39;/todo&#39;)&lt;/code&gt; decorator on it. but note, the &lt;code&gt;getListOfTodos()&lt;/code&gt; method does not have a &lt;code&gt;@Path()&lt;/code&gt;
+decorator at all, only a &lt;code&gt;@GET&lt;/code&gt;. In this case the &lt;code&gt;getListOfTodos()&lt;/code&gt; method will be mapped to the route url
+for this resource class. When a user makes a get request to &lt;code&gt;GET http://&amp;lt;my_url&amp;gt;/todo&lt;/code&gt; they will be returned a JSON array
+of all the Todo objects in the database.&lt;/p&gt;
+
+&lt;h2 id=&#34;path-parameters&#34;&gt;Path Parameters&lt;/h2&gt;
+
+&lt;p&gt;Paths often contain parameters we need to parse, for example when getting just one Todo out of the database. Lets see
+what that looks like.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, GET} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  @Path(&#39;/:id&#39;)
+  public getTodo( @PathParam(&#39;id&#39;) id ) {
+    return Todo.query()
+               .findById(id);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this code we see the &lt;code&gt;@Path(&#39;/:id&#39;)&lt;/code&gt;. The string passed to the Path decorator is a pass through directly to Express.
+So any valid parameter value in Express is valid here. Then in our method signature we see our id parameter is decorated with
+&lt;code&gt;@PathParam(&#39;id&#39;)&lt;/code&gt;. The string passed to the PathParam decorator should match the named route param passed the the &lt;code&gt;@Path()&lt;/code&gt;
+decorator. NOTE: Currently all &lt;code&gt;@PathParam()&lt;/code&gt;&amp;rsquo;s are passed as strings&lt;/p&gt;
+
+&lt;h2 id=&#34;query-parameters&#34;&gt;Query Parameters&lt;/h2&gt;
+
+&lt;p&gt;Endpoints can some times have query parameters to define optional parameters that may be sent to the server. One example
+of this is defining what order an array of results should be returned in. Lets build on our previous example of getting a list of
+todos from the database.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, GET, QueryParam} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @GET
+  public getListOfTodos( @QueryParam(&#39;sortOrder&#39;) sortOrder ) {
+    sortOrder = sortOrder || &#39;asc&#39;;
+
+    return Todo.query()
+               .orderBy(&#39;id&#39;, sortOrder);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This example is almost exactly the same as our previous example, but with the adition of parameter
+to our route method, &lt;code&gt;sortOrder&lt;/code&gt;. &lt;code&gt;sortOrder&lt;/code&gt; is annotated with &lt;code&gt;@QueryParam(&#39;sortOrder&#39;)&lt;/code&gt; this will
+map a query parameter in the URL named &lt;code&gt;sortOrder&lt;/code&gt; to this parameter of our method, also named &lt;code&gt;sortOrder&lt;/code&gt;.
+For example: A user makes a request to &lt;code&gt;GET http://&amp;lt;my_url&amp;gt;/todo?sortOrder=desc&lt;/code&gt; a list of todos from the
+database will be returned as before. Except, this time they will be in reverse order.&lt;/p&gt;
+
+&lt;h2 id=&#34;request-body&#34;&gt;Request Body&lt;/h2&gt;
+
+&lt;p&gt;POST requests (and others) often contain a body to the request. Reading that body, as an instance of one of your models,
+is very easy with Parka. This is an example of creating a new Todo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {Path, PathParam, POST, QueryParam} from &#39;parka&#39;;
+import {Todo} from &#39;../models/todo&#39;;
+
+
+@Path(&#39;/todo&#39;)
+export class TodoResource {
+
+  @POST
+  public createNewTodo(@RequestBody(Todo) todo) {
+
+    return Todo.query()
+               .insert(todo);
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;@RequestBody&lt;/code&gt; gets passed one parameter, the Constructor for the class you want to create. When parka parses the request
+it will take the request body and create a new instance of the Constructor and pass it in as the todo parameter in this example.&lt;/p&gt;
+
+&lt;p&gt;One main advantage of doing this is that Objection.js (the ORM being used under the hood) does validation on the models
+every time an instance is created. If the request body is not a valid Todo model, Objection.js will throw a ValidationError error,
+and execution of this request will be halted and the error will be returned to the client.&lt;/p&gt;
+
+&lt;div class=&#34;admonition note&#34;&gt;
+&lt;p class=&#34;admonition-title&#34;&gt;Validation Errors from Objection.js&lt;/p&gt;
+&lt;p&gt;Currently when Objection.js raises a ValidationError the response returned to the client is NOT in JSON format. This is something
+I plan to change in the near future. An overarching goal of Parka is to always return JSON to the client and never plain text.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
