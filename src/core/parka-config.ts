@@ -5,6 +5,7 @@ export class ParkaConfig {
     public host: string;
     public port: number;
     public db: IDbConnection;
+    public routing: IRoutingConfig;
 
     constructor(json) {
         for (let key in json) {
@@ -21,3 +22,6 @@ export interface IDbConnection {
     useNullAsDefault?: boolean
 }
 
+export interface IRoutingConfig {
+    prefix: string;
+}

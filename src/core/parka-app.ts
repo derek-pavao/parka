@@ -168,6 +168,9 @@ export class ParkaApp <T extends ParkaConfig>{
 
     private getPath(ResourceClass, getMethod): string {
         let path = [];
+        if (this.config.routing && this.config.routing.prefix) {
+            path.push(this.config.routing.prefix);
+        }
         path.push(ResourceClass.__path);
 
         let methodPath = ResourceClass.prototype[getMethod.methodName].__path;
