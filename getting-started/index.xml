@@ -93,7 +93,7 @@ $ cd todos
   &amp;quot;exclude&amp;quot;: [
     &amp;quot;node_modules&amp;quot;,
     &amp;quot;typings/browser&amp;quot;,
-    &amp;quot;typigns/browser.d.ts&amp;quot;
+    &amp;quot;typings/browser.d.ts&amp;quot;
   ],
   &amp;quot;compileOnSave&amp;quot;: false
 }
