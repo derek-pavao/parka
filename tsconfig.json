@@ -13,6 +13,7 @@
         "node_modules",
         "typings/browser",
         "typings/browser.d.ts",
+        "typings/modules",
         "example",
         "test",
         "dist"
