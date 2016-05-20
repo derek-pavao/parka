@@ -11,4 +11,5 @@ export {DELETE} from './decorators/delete';
 export {RequestBody} from './decorators/request-body';
 export {ParkaModel} from './core/parka-model';
 export {TableName} from './decorators/table-name';
+export {Model} from './decorators/model';
 

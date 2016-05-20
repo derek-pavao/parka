@@ -34,6 +34,7 @@ export class ParkaApp <T extends ParkaConfig>{
             this.configureDatabaseConneciton();
             this.configureExpressServer();
             this.onBeforeApplicationStart();
+            this.configureGlobalErrorHandling();
 
             this.start();
         });
@@ -193,7 +194,6 @@ export class ParkaApp <T extends ParkaConfig>{
     }
 
     private parseAppConfig() {
-        console.log('configFile', this.configFile);
         let configFileContents = YAML.load(this.configFile);
         this.config = new this.ConfigConstructor(configFileContents);
     }
@@ -212,6 +212,41 @@ export class ParkaApp <T extends ParkaConfig>{
         });
 
         this.expressApp = app;
+    }
+
+    private configureGlobalErrorHandling() {
+
+        // Handle non matched routes
+        this.expressApp.use('*', (req, res, next) => {
+            res.status(404)
+                .json({
+                    status: 404,
+                    message: 'Not Found',
+                    stacktrace: this.getStacktrace()
+                });
+        });
+
+
+        this.expressApp.use((err: any, req: any, res: any, next: any) => {
+            if (err) {
+                console.error(err.stack);
+            }
+
+            res.status(500)
+                .json({
+                    status: 500,
+                    message: err.message,
+                    stacktrace: this.getStacktrace(err)
+                });
+        });
+    }
+
+    private getStacktrace(err?) {
+        if (typeof err !== 'undefined') {
+            return (this.config.includeStacktraceInResponse) ? err.stack : null;
+        } else {
+            return (this.config.includeStacktraceInResponse) ? new Error().stack : null;
+        }
     }
 
     private configureDatabaseConneciton() {

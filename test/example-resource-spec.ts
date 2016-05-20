@@ -58,6 +58,22 @@ describe('ExampleResource', () => {
 
     });
 
+    it ('should always return json, even if an error gets thrown on the server', (done) => {
+        request(app.expressApp)
+            .get('/example/error')
+            .expect(500)
+            .expect((res) => {
+                if (typeof res.body.stacktrace === 'string') {
+                    res.body.stacktrace = 'SUCCESS'
+                }
+            })
+            .expect({
+                status: 500,
+                message: 'This is an error',
+                stacktrace: 'SUCCESS'
+            }, done);
+    });
+
     //it ('should be able to ge a list of Persons out of the sqlite db', (done) => {
     //    request(app.expressApp)
     //        .get('/example/person')

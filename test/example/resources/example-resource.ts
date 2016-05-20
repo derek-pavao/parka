@@ -102,6 +102,12 @@ export class ExampleResource {
             .findById(id);
     }
 
+    @GET
+    @Path('/error')
+    public testError() {
+        throw new Error('This is an error');
+    }
+
 
 
 }

@@ -6,6 +6,7 @@ export class ParkaConfig {
     public port: number;
     public db: IDbConnection;
     public routing: IRoutingConfig;
+    public includeStacktraceInResponse: boolean;
 
     constructor(json) {
         for (let key in json) {

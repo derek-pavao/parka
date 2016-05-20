@@ -48,7 +48,7 @@
     "ts-node": "^0.6.2",
     "typescript": "^1.8.9",
     "typings": "^0.7.9",
-    "yamljs": "^0.2.6"
+    "yamljs": "^0.2.7"
   },
   "devDependencies": {
     "chai": "^3.5.0",

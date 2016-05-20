@@ -1,9 +1,8 @@
-import {ParkaApp} from '../core/parka-app';
+const objection = require('objection');
 
 export let Model = function () {
     return function (target) {
-        console.log('arguments', arguments);
-        console.log('ParkaApp', ParkaApp);
-        console.log('ParkaApp.appInstance', ParkaApp.appInstance);
+
+        objection.Model.extend(target);
     };
 };

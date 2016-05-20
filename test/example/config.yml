@@ -1,6 +1,7 @@
-appName: 'parka-test-server'
-env: 'dev'
-host: '0.0.0.0'
+appName: parka-test-server
+env: dev
+includeStacktraceInResponse: true
+host: 0.0.0.0
 port: 4000
 db:
   client: sqlite3
