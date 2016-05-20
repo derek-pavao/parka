@@ -11,9 +11,8 @@
     },
     "exclude": [
         "node_modules",
-        "typings/main",
         "typings/browser",
-        "typings/main.d.ts",
+        "typings/browser.d.ts",
         "example",
         "test",
         "dist"
