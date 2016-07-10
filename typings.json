@@ -1,25 +1,25 @@
 {
-  "ambientDependencies": {
-    "bluebird": "registry:dt/bluebird#2.0.0+20160316155526",
-    "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
+  "name": "parka",
+  "dependencies": {
+    "objection": "github:dotDeeka/objection-d-ts/index.d.ts#314ce51ee2755e5a5201a0e22418809def4e50b8"
+  },
+  "globalDependencies": {
+    "bluebird": "registry:dt/bluebird#2.0.0+20160701023356",
+    "body-parser": "registry:dt/body-parser#0.0.0+20160619023215",
     "cookie-parser": "registry:dt/cookie-parser#1.3.4+20160316155526",
     "express": "registry:dt/express#4.0.0+20160317120654",
-    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160317120654",
-    "knex": "registry:dt/knex#0.0.0+20160316155526",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160701212727",
+    "knex": "registry:dt/knex#0.0.0+20160705134223",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
-    "morgan": "registry:dt/morgan#1.2.2+20160317120654",
-    "node": "registry:dt/node#4.0.0+20160317120654",
-    "serve-static": "registry:dt/serve-static#0.0.0+20160317120654",
-    "yamljs": "registry:dt/yamljs#0.2.3+20160316155526"
+    "morgan": "registry:dt/morgan#1.7.0+20160524142355",
+    "node": "registry:dt/node#6.0.0+20160709114037",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
+    "yamljs": "registry:dt/yamljs#0.2.3+20160602141818"
   },
-  "ambientDevDependencies": {
-    "chai": "registry:dt/chai#3.4.0+20160317120654",
-    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+  "globalDevDependencies": {
+    "chai": "registry:dt/chai#3.4.0+20160601211834",
+    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
     "superagent": "registry:dt/superagent#1.4.0+20160317120654",
     "supertest": "registry:dt/supertest#1.1.0+20160317120654"
-  },
-  "dependencies": {
-    "lodash": "registry:npm/lodash#4.0.0+20160416211519",
-    "objection": "github:dotDeeka/objection-d-ts/index.d.ts"
   }
 }
