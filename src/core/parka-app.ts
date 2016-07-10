@@ -127,11 +127,7 @@ export class ParkaApp <T extends ParkaConfig>{
                     let paramList: Array<any> = this.getParamList(ResourceClass, getMethod.methodName, req);
 
                     Promise.resolve(resource[getMethod.methodName].apply(resource, paramList)).then((returnValue) => {
-                        if (typeof returnValue.$validate !== 'undefined') {
-                            returnValue.$validate();
-                        }
                         res.json(returnValue);
-
                     }).catch((err) => res.status(err.statusCode || 500).json(err));
                 });
             });
