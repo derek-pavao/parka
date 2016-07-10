@@ -74,14 +74,46 @@ describe('ExampleResource', () => {
             }, done);
     });
 
-    //it ('should be able to ge a list of Persons out of the sqlite db', (done) => {
-    //    request(app.expressApp)
-    //        .get('/example/person')
-    //        .expect(200)
-    //        .end(function (err, res) {
-    //            expect(res.body.length).to.equal(2);
-    //            done();
-    //        });
-    //});
+    it ('should be able to ge a list of Persons out of the sqlite db', (done) => {
+       request(app.expressApp)
+           .get('/example/person')
+           .expect(200)
+           .end(function (err, res) {
+               expect(res.body.length).to.be.greaterThan(0);
+               done();
+           });
+    });
+
+    it ('should be able to get a single person out of the database by id param', (done) => {
+        request(app.expressApp)
+            .get('/example/person/1')
+            .expect(200)
+            .expect({
+                id: 1,
+                firstName: 'Derek',
+                middleName: 'Jon',
+                lastName: 'Pavao',
+                dob: '1981-03-26',
+                active: false
+            })
+            .end(function (err, res) {
+                console.log('res', res);
+                done()
+            });
+    });
+
+    it ('should return a 400 if data posted to it doesn\'t pass validation', (done) => {
+        request(app.expressApp)
+            .post('/example/person')
+            .send({
+                firstName: 'Amanda',
+                lastName: '',
+                middleName: 'Carter',
+                dob: '1985-07-14',
+                active: false
+            })
+            .expect(400, done)
+
+    });
 
 });

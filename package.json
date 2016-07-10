@@ -8,7 +8,6 @@
     "npm": "~3.3.12"
   },
   "scripts": {
-    "start-example": "ts-node example/app.ts",
     "start-dev": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
     "tsc": "tsc",
     "typings": "typings",

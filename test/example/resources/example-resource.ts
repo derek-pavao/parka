@@ -91,15 +91,24 @@ export class ExampleResource {
     @GET
     @Path('/person')
     public getPersonList() {
-        return PersonModel.query();
+        return PersonModel['query']();
     }
 
     @GET
     @Path('/person/:id')
     public getPersonById(@PathParam('id') id) {
 
-        return PersonModel.query()
-            .findById(id);
+        return PersonModel['query']()
+            .findById(id)
+            .then((person) => person);
+    }
+
+    @POST
+    @Path('/person')
+    public createPerson(@RequestBody(PersonModel) person: PersonModel) {
+        return person.$query()
+            .insert();
+
     }
 
     @GET
@@ -107,6 +116,7 @@ export class ExampleResource {
     public testError() {
         throw new Error('This is an error');
     }
+
 
 
 

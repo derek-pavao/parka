@@ -13,6 +13,7 @@ import {
     Response
 } from 'express';
 import {ParkaConfig} from "./parka-config";
+import {ParkaModel} from "./parka-model";
 
 
 export class ParkaApp <T extends ParkaConfig>{
@@ -126,7 +127,11 @@ export class ParkaApp <T extends ParkaConfig>{
                     let paramList: Array<any> = this.getParamList(ResourceClass, getMethod.methodName, req);
 
                     Promise.resolve(resource[getMethod.methodName].apply(resource, paramList)).then((returnValue) => {
+                        if (typeof returnValue.$validate !== 'undefined') {
+                            returnValue.$validate();
+                        }
                         res.json(returnValue);
+
                     }).catch((err) => res.status(err.statusCode || 500).json(err));
                 });
             });
@@ -144,8 +149,9 @@ export class ParkaApp <T extends ParkaConfig>{
                 } else if (paramDef.paramType === 'QUERY_PARAM') {
                     return req.query[paramDef.paramName];
                 } else if (paramDef.paramType === 'REQUEST_BODY') {
-
-                    return this.constructCorrectType(req, paramDef);
+                    let constructedModel = this.constructCorrectType(req, paramDef);
+                    constructedModel.$validate();
+                    return constructedModel;
                 }
             });
         } else {
@@ -232,12 +238,16 @@ export class ParkaApp <T extends ParkaConfig>{
                 console.error(err.stack);
             }
 
-            res.status(500)
-                .json({
-                    status: 500,
-                    message: err.message,
-                    stacktrace: this.getStacktrace(err)
-                });
+            if (err instanceof objection.ValidationError === true) {
+                res.status(err.statusCode).json(err);
+            } else {
+                res.status(500)
+                    .json({
+                        status: 500,
+                        message: err.message,
+                        stacktrace: this.getStacktrace(err)
+                    });
+            }
         });
     }
 
