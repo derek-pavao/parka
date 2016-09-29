@@ -6,9 +6,9 @@ var tsconfig = require(path.join(process.cwd(), 'tsconfig.json'));
 
 
 program
-    .option('-i, --instances <number>', 'the number of instances in the cluster, defaults to max')
-    .option('-p, --production', 'Wether it should transpile to JS before running')
-    .parse(process.argv);
+  .option('-i, --instances <number>', 'the number of instances in the cluster, defaults to max')
+  .option('-p, --production', 'Wether it should transpile to JS before running')
+  .parse(process.argv);
 
 var appFile = path.join(process.cwd(), process.argv[2]);
 var configFile = path.join(process.cwd(), process.argv[3]);
@@ -16,21 +16,21 @@ var configFile = path.join(process.cwd(), process.argv[3]);
 var instances = program.instances || 0;
 
 if (program.production) {
-    if (tsconfig.compilerOptions.outDir) {
-        rm('-rf', tsconfig.compilerOptions.outDir);
-    }
-    exec('tsc');
+  if (tsconfig.compilerOptions.outDir) {
+    rm('-rf', tsconfig.compilerOptions.outDir);
+  }
+  exec('tsc');
 
-    appFile = process.argv[2].replace(tsconfig.compilerOptions.rootDir, tsconfig.compilerOptions.outDir);
-    appFile = appFile.replace(/\.ts$/, '.js');
-    appFile = path.join(process.cwd(), appFile);
+  appFile = process.argv[2].replace(tsconfig.compilerOptions.rootDir, tsconfig.compilerOptions.outDir);
+  appFile = appFile.replace(/\.ts$/, '.js');
+  appFile = path.join(process.cwd(), appFile);
 
-    var cmd = 'export PARKA_CONFIG_FILE='+ configFile +' && pm2 start '+ appFile +' --name '+ appFile +' -i '+ instances +' -l logs/full.log -o logs/out.log -e logs/error.log';
+  var cmd = 'export PARKA_CONFIG_FILE=' + configFile + ' && pm2 start ' + appFile + ' --name ' + appFile + ' -i ' + instances + ' -l logs/full.log -o logs/out.log -e logs/error.log';
 
-    exec(cmd);
+  exec(cmd);
 
 } else {
-    exec('export PARKA_CONFIG_FILE='+ configFile +' && pm2 start '+ appFile +' --name '+ appFile +' -i '+ instances +' --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
+  exec('export PARKA_CONFIG_FILE=' + configFile + ' && pm2 start ' + appFile + ' --name ' + appFile + ' -i ' + instances + ' --node-args="--require ts-node/register" -l ./logs/full.log -o ./logs/out.log -e ./logs/err.log');
 }
 
 process.exit(0);

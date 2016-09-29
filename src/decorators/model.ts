@@ -1,8 +1,8 @@
 const objection = require('objection');
 
 export let Model = function () {
-    return function (target) {
+  return function (target) {
 
-        objection.Model.extend(target);
-    };
+    objection.Model.extend(target);
+  };
 };

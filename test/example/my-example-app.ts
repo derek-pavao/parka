@@ -1,24 +1,19 @@
-import * as path from 'path';
-import {
-    ParkaApp
-} from '../../src/parka';
+import {ParkaApp} from '../../src/parka';
 
 
-import * as express from 'express';
 import {ExampleResource} from "./resources/example-resource";
 import {MyExampleConfig} from "./my-example-config";
 
 
 
+export class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
-class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
+  public onBeforeApplicationStart(): void {
 
-    public onBeforeApplicationStart(): void {
+    this.registerResource(ExampleResource);
 
-        this.registerResource(ExampleResource);
-
-    }
+  }
 
 }
 

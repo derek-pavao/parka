@@ -16,107 +16,106 @@ import {PersonModel} from '../models/person-model';
 @Path('/example')
 export class ExampleResource {
 
-    private req: express.Request;
-    private res: express.Response;
+  private req: express.Request;
+  private res: express.Response;
 
-    @GET
-    @Path('/example')
-    public exampleGet() {
+  @GET
+  @Path('/example')
+  public exampleGet() {
 
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
 
-                resolve({
-                    status: 'OK'
-                });
-            }, 0);
+        resolve({
+          status: 'OK'
         });
+      }, 0);
+    });
+  }
+
+  @GET
+  public exampleGetWithNoPath() {
+    return {
+      status: 'OK'
+    };
+  }
+
+  @GET
+  @Path('/example-two/:withParam')
+  public exampleGetTwo(@PathParam('withParam') withParam: string, @QueryParam('derpQueryParam') derpQueryParam?: string) {
+
+    console.log('params', this.req.params);
+
+
+    return {
+      derp: true,
+      pathParam: withParam,
+      queryParam: derpQueryParam
+    };
+  }
+
+  @POST
+  @Path('/example-post/:param')
+  public examplePost(@PathParam('param') param: string) {
+    return {
+      param,
+      post: 'worked'
+    };
+  }
+
+  @POST
+  @Path('/example-post-with-body')
+  public examplePostWithBody(@RequestBody(StatusModel) body: StatusModel) {
+    console.log('body', body);
+    body['isCorrectInstance'] = body instanceof StatusModel ? true : false;
+    return body;
+  }
+
+  @POST
+  @Path('/example-post-with-body/:andParam')
+  public examplePostWithBodyAndParam(@RequestBody() body, @PathParam('andParam') param) {
+    body.param = param;
+
+    return body;
+  }
+
+  @DELETE
+  @Path('/example-delete?:param')
+  public exampleDelete(@QueryParam('param') param: string) {
+    return {
+      param,
+      delete: 'worked'
     }
+  }
 
-    @GET
-    public exampleGetWithNoPath() {
-        return {
-            status: 'OK'
-        };
-    }
+  @GET
+  @Path('/person')
+  public getPersonList() {
+    return PersonModel['query']();
+  }
 
-    @GET
-    @Path('/example-two/:withParam')
-    public exampleGetTwo(@PathParam('withParam') withParam: string, @QueryParam('derpQueryParam') derpQueryParam?: string) {
+  @GET
+  @Path('/person/:id')
+  public getPersonById(@PathParam('id') id) {
 
-        console.log('params', this.req.params);
+    return PersonModel['query']()
+      .findById(id)
+      .then((person) => person);
+  }
 
+  @POST
+  @Path('/person')
+  public createPerson(@RequestBody(PersonModel) person: PersonModel) {
+    return person['$query']()
+      .insert();
 
-        return {
-            derp: true,
-            pathParam: withParam,
-            queryParam: derpQueryParam
-        };
-    }
+  }
 
-    @POST
-    @Path('/example-post/:param')
-    public examplePost(@PathParam('param') param: string) {
-        return {
-            param,
-            post: 'worked'
-        };
-    }
-
-    @POST
-    @Path('/example-post-with-body')
-    public examplePostWithBody(@RequestBody(StatusModel) body: StatusModel) {
-        console.log('body', body);
-        body['isCorrectInstance'] = body instanceof StatusModel ? true : false;
-        return body;
-    }
-
-    @POST
-    @Path('/example-post-with-body/:andParam')
-    public examplePostWithBodyAndParam(@RequestBody() body, @PathParam('andParam') param) {
-        body.param = param;
-
-        return body;
-    }
-
-    @DELETE
-    @Path('/example-delete?:param')
-    public exampleDelete(@QueryParam('param') param: string) {
-        return {
-            param,
-            delete: 'worked'
-        }
-    }
-
-    @GET
-    @Path('/person')
-    public getPersonList() {
-        return PersonModel['query']();
-    }
-
-    @GET
-    @Path('/person/:id')
-    public getPersonById(@PathParam('id') id) {
-
-        return PersonModel['query']()
-            .findById(id)
-            .then((person) => person);
-    }
-
-    @POST
-    @Path('/person')
-    public createPerson(@RequestBody(PersonModel) person: PersonModel) {
-        return person.$query()
-            .insert();
-
-    }
-
-    @GET
-    @Path('/error')
-    public testError() {
-        throw new Error('This is an error');
-    }
-
+  @GET
+  @Path('/error')
+  public testError() {
+    throw new Error('This is an error');
+  }
 
 
 
