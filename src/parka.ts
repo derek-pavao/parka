@@ -1,6 +1,7 @@
 export {bootstrap} from './core/bootstrap';
 export {ParkaApp} from './core/parka-app';
 export {ParkaConfig} from './core/parka-config';
+export {ParkaModel} from './core/parka-model';
 export {Path} from './decorators/path';
 export {GET} from './decorators/get';
 export {PathParam} from './decorators/path-param';

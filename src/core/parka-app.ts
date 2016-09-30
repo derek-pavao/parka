@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as YAML from 'yamljs';
+import {forIn} from 'lodash';
 import * as express from 'express';
 import * as logger from 'morgan';
 // import * as bodyParser from 'body-parser';
@@ -7,8 +8,11 @@ import {json, urlencoded} from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as Promise from 'bluebird';
+import * as Sequelize from 'sequelize';
+import {ParkaModel} from './parka-model';
 
-const objection = require('objection');
+
+// const objection = require('objection');
 import {
   Request,
   Response,
@@ -16,7 +20,7 @@ import {
 } from 'express';
 import {ParkaConfig} from "./parka-config";
 import e = require("cookie-parser");
-
+import sequelize = require("sequelize");
 
 export class ParkaApp <T extends ParkaConfig> {
 
@@ -24,6 +28,7 @@ export class ParkaApp <T extends ParkaConfig> {
   public expressApp: Application;
   public configFile: string;
   public config: T;
+  public dbConn: Sequelize.Sequelize;
 
   private port: any;
 
@@ -34,7 +39,7 @@ export class ParkaApp <T extends ParkaConfig> {
     process.nextTick(() => {
       ParkaApp.appInstance = this;
       this.parseAppConfig();
-      // this.configureDatabaseConneciton();
+      this.configureDatabaseConneciton();
       this.configureExpressServer();
       this.onBeforeApplicationStart();
       this.configureGlobalErrorHandling();
@@ -236,16 +241,23 @@ export class ParkaApp <T extends ParkaConfig> {
         console.error(err.stack);
       }
 
-      if (err instanceof objection.ValidationError === true) {
-        res.status(err.statusCode).json(err);
-      } else {
-        res.status(500)
-          .json({
-            status: 500,
-            message: err.message,
-            stacktrace: this.getStacktrace(err)
-          });
-      }
+      res.status(500)
+        .json({
+          status: 500,
+          message: err.message,
+          stacktrace: this.getStacktrace(err)
+        });
+      // TODO: Replace below code with new sequelize code
+      // if (err instanceof objection.ValidationError === true) {
+      //   res.status(err.statusCode).json(err);
+      // } else {
+      //   res.status(500)
+      //     .json({
+      //       status: 500,
+      //       message: err.message,
+      //       stacktrace: this.getStacktrace(err)
+      //     });
+      // }
     });
   }
 
@@ -257,10 +269,27 @@ export class ParkaApp <T extends ParkaConfig> {
     }
   }
 
-  // private configureDatabaseConneciton() {
-  //     const conn = knex(this.config.db);
-  //
-  //     objection.Model.knex(conn);
-  // }
+  private configureDatabaseConneciton() {
+
+
+
+    const conn = new Sequelize(this.config.db.name,
+      this.config.db.username,
+      this.config.db.password,
+      this.config.db.options);
+
+
+    if (conn.authenticate()) {
+      this.dbConn = conn;
+      console.log('ParkaModel.....', ParkaModel.getModelMap());
+
+      forIn(ParkaModel.getModelMap(), (Model, modelName) => {
+        let model = this.dbConn.define(modelName, Model.definition.attributes);
+        console.log('find', model.find);
+      });
+    } else {
+      throw 'DB Connection Error';
+    }
+  }
 
 }

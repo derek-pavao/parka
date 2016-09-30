@@ -4,7 +4,14 @@ includeStacktraceInResponse: true
 host: 0.0.0.0
 port: 4000
 db:
-  client: sqlite3
-  connection:
-    filename: ./db.sqlite
-  useNullAsDefault: true
+  name: main
+  username: root
+  password: null
+  options:
+    host: localhost
+    dialect: sqlite
+    pool:
+      max: 5,
+      min: 0,
+      idle: 10000
+    storage: './db.sqlite'

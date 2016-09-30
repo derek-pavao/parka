@@ -1,3 +1,4 @@
+import * as sequelize from 'sequelize';
 export class ParkaConfig {
 
   public appName: string;
@@ -18,9 +19,10 @@ export class ParkaConfig {
 }
 
 export interface IDbConnection {
-  client: string;
-  connection: any;
-  useNullAsDefault?: boolean
+  name: string;
+  username: string;
+  password: string;
+  options: sequelize.Options;
 }
 
 export interface IRoutingConfig {
