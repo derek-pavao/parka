@@ -7,5 +7,4 @@ import {Model} from "../../../src/decorators/model";
 export class StatusModel extends ParkaModel {
   status: string;
   statusMessage: string;
-
 }

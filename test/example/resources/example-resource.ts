@@ -8,6 +8,7 @@ import {DELETE} from '../../../src/parka';
 import {RequestBody} from '../../../src/parka';
 
 import * as Promise from 'bluebird';
+import {merge} from 'lodash';
 import {StatusModel} from "../models/status-model";
 import {PersonModel} from '../models/person-model';
 
@@ -44,9 +45,6 @@ export class ExampleResource {
   @Path('/example-two/:withParam')
   public exampleGetTwo(@PathParam('withParam') withParam: string, @QueryParam('derpQueryParam') derpQueryParam?: string) {
 
-    console.log('params', this.req.params);
-
-
     return {
       derp: true,
       pathParam: withParam,
@@ -66,9 +64,12 @@ export class ExampleResource {
   @POST
   @Path('/example-post-with-body')
   public examplePostWithBody(@RequestBody(StatusModel) body: StatusModel) {
-    console.log('body', body);
-    body['isCorrectInstance'] = body instanceof StatusModel ? true : false;
-    return body;
+
+    // body = body instanceof StatusModel ? true : false;
+    // return body;
+    return merge(body, {
+      isCorrectInstance: body instanceof StatusModel ? true : false
+    });
   }
 
   @POST

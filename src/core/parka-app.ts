@@ -1,3 +1,4 @@
+declare const objection: any;
 import * as YAML from 'yamljs';
 import * as express from 'express';
 import * as logger from 'morgan';
@@ -235,7 +236,8 @@ export class ParkaApp <T extends ParkaConfig> {
         console.error(err.stack);
       }
 
-      if (err instanceof objection.ValidationError === true) {
+      // if (err instanceof ValidationError === true) {
+      if (typeof err.statusCode === 'number' && typeof err.data !== 'undefined') {
         res.status(err.statusCode).json(err);
       } else {
         res.status(500)
@@ -258,7 +260,6 @@ export class ParkaApp <T extends ParkaConfig> {
 
   private configureDatabaseConneciton() {
     const conn = knex(this.config.db);
-
     objection.Model.knex(conn);
   }
 
