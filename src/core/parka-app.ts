@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as YAML from 'yamljs';
 import * as express from 'express';
 import * as logger from 'morgan';
@@ -7,7 +6,8 @@ import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as Promise from 'bluebird';
 import * as knex from 'knex';
-const objection = require('objection');
+import * as objection from 'objection';
+
 import {
   Request,
   Response

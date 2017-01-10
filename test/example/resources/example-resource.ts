@@ -106,7 +106,7 @@ export class ExampleResource {
   @POST
   @Path('/person')
   public createPerson(@RequestBody(PersonModel) person: PersonModel) {
-    return person.$query()
+    return person['$query']()
       .insert();
 
   }

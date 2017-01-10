@@ -1,8 +1,8 @@
 import * as request from 'supertest';
-import {app} from './example/my-example-app.ts';
+import {app} from './example/my-example-app';
 import * as chai from 'chai';
 const expect = chai.expect;
-
+import 'mocha';
 
 describe('ExampleResource', () => {
 
