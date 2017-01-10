@@ -1,6 +1,6 @@
 import * as path from 'path';
 import {
-    ParkaApp
+  ParkaApp
 } from '../../src/parka';
 
 
@@ -10,15 +10,14 @@ import {MyExampleConfig} from "./my-example-config";
 
 
 
-
 class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
 
-    public onBeforeApplicationStart(): void {
+  public onBeforeApplicationStart(): void {
 
-        this.registerResource(ExampleResource);
+    this.registerResource(ExampleResource);
 
-    }
+  }
 
 }
 

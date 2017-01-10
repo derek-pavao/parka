@@ -1,22 +1,22 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "declaration": true
-    },
-    "exclude": [
-        "node_modules",
-        "typings/browser",
-        "typings/browser.d.ts",
-        "typings/modules",
-        "example",
-        "test",
-        "dist"
-    ],
-    "compileOnSave": false
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES6"
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/browser",
+    "typings/browser.d.ts",
+    "typings/modules",
+    "example",
+    "test",
+    "dist"
+  ],
+  "compileOnSave": false
 }
