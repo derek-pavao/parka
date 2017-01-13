@@ -1,9 +1,11 @@
-import * as knex from 'knex';
-import * as Promise from 'bluebird';
 import {Model} from 'objection';
 
 
-export class ParkaModel extends Model {
+export class ParkaModel {
+  public static extend = function (subClassConstructor) {
+    return Model.extend.apply(this, arguments);
+  }
 
 }
+Model.extend(ParkaModel);
 

@@ -1,11 +1,11 @@
 import {ParkaModel} from '../../../src/parka';
 import {TableName} from "../../../src/decorators/table-name";
 import {Model} from "../../../src/decorators/model";
-import {Model as ObjectionModel} from 'objection';
 
-@Model()
 @TableName('Person')
+@Model()
 export class PersonModel extends ParkaModel {
+
   public static jsonSchema = {
     type: 'object',
     required: ['firstName', 'lastName'],
@@ -21,3 +21,4 @@ export class PersonModel extends ParkaModel {
   };
 
 }
+
