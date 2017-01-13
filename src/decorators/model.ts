@@ -1,8 +1,7 @@
-const objection = require('objection');
+import {ParkaModel} from '../parka';
 
 export let Model = function () {
   return function (target) {
-
-    objection.Model.extend(target);
+    ParkaModel.extend(target);
   };
 };

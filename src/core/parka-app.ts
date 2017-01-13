@@ -7,7 +7,8 @@ import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as Promise from 'bluebird';
 import * as knex from 'knex';
-import * as objection from 'objection';
+import {Model} from 'objection';
+
 
 import {
   Request,
@@ -20,6 +21,7 @@ import {ParkaModel} from "./parka-model";
 export class ParkaApp <T extends ParkaConfig> {
 
   public static appInstance: ParkaApp<ParkaConfig>;
+  public static knexConn;
   public expressApp: express.Application;
   public configFile: string;
   public config: T;
@@ -260,7 +262,8 @@ export class ParkaApp <T extends ParkaConfig> {
 
   private configureDatabaseConneciton() {
     const conn = knex(this.config.db);
-    objection.Model.knex(conn);
+    Model.knex(conn);
   }
+
 
 }

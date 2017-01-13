@@ -9,11 +9,5 @@
     "experimentalDecorators": true,
     "declaration": true
   },
-  "exclude": [
-    "node_modules",
-    "example",
-    "test",
-    "dist"
-  ],
   "compileOnSave": false
 }

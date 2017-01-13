@@ -8,7 +8,7 @@
     "npm": "~3.3.12"
   },
   "scripts": {
-    "start-dev": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
+    "start": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
     "tsc": "tsc",
     "typings": "typings",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
@@ -45,7 +45,7 @@
     "knex": "^0.10.0",
     "lodash": "^4.6.1",
     "morgan": "^1.7.0",
-    "objection": "^0.6.2",
+    "objection": "^0.7.0-rc.1",
     "pm2": "^1.0.2",
     "reflect-metadata": "^0.1.3",
     "shelljs": "^0.6.0",

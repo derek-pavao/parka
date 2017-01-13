@@ -12,8 +12,6 @@ import {merge} from 'lodash';
 import {StatusModel} from "../models/status-model";
 import {PersonModel} from '../models/person-model';
 
-
-
 @Path('/example')
 export class ExampleResource {
 
@@ -23,6 +21,7 @@ export class ExampleResource {
   @GET
   @Path('/example')
   public exampleGet() {
+
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -92,6 +91,7 @@ export class ExampleResource {
   @GET
   @Path('/person')
   public getPersonList() {
+
     return PersonModel['query']();
   }
 
