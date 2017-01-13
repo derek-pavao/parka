@@ -12,6 +12,7 @@ import {merge} from 'lodash';
 import {StatusModel} from "../models/status-model";
 import {PersonModel} from '../models/person-model';
 
+
 @Path('/example')
 export class ExampleResource {
 
@@ -92,24 +93,23 @@ export class ExampleResource {
   @Path('/person')
   public getPersonList() {
 
-    return PersonModel['query']();
+    return PersonModel.query();
   }
 
   @GET
   @Path('/person/:id')
   public getPersonById(@PathParam('id') id) {
 
-    return PersonModel['query']()
-      .findById(id)
-      .then((person) => person);
+    return PersonModel.query()
+      .findById(1)
   }
 
   @POST
   @Path('/person')
   public createPerson(@RequestBody(PersonModel) person: PersonModel) {
-    return person['$query']()
-      .insert();
 
+    return person.$query()
+      .insert();
   }
 
   @GET

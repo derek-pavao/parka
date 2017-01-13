@@ -4,7 +4,6 @@ import {
 } from '../../src/parka';
 
 
-import * as express from 'express';
 import {ExampleResource} from "./resources/example-resource";
 import {MyExampleConfig} from "./my-example-config";
 

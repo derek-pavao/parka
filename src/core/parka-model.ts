@@ -1,11 +1,7 @@
 import {Model} from 'objection';
 
-
-export class ParkaModel {
-  public static extend = function (subClassConstructor) {
-    return Model.extend.apply(this, arguments);
-  }
+export class ParkaModel extends Model {
 
 }
-Model.extend(ParkaModel);
+
 
