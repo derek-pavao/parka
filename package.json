@@ -10,11 +10,9 @@
   "scripts": {
     "start": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
     "tsc": "tsc",
-    "typings": "typings",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
     "build": "rm -rf ./dist && tsc --outDir ./dist",
-    "prepublish": "typings install && npm run build",
-    "generate-dts": "dts-generator --project ./ --name parka --out ./dist/parka.d.ts"
+    "prepublish": "npm run build"
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
   "homepage": "https://github.com/dotDeeka/parka",
