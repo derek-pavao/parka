@@ -5,9 +5,7 @@ git:
   depth: 3
 
 script:
-  - npm install -g typings
   - npm install -g ts-node
   - npm install -g typescript
   - npm install
-  - typings install
   - npm test
