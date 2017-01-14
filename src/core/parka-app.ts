@@ -21,7 +21,6 @@ import {ParkaModel} from "./parka-model";
 export class ParkaApp <T extends ParkaConfig> {
 
   public static appInstance: ParkaApp<ParkaConfig>;
-  public static knexConn;
   public expressApp: express.Application;
   public configFile: string;
   public config: T;
