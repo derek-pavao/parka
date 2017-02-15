@@ -9,7 +9,7 @@ import {MyExampleConfig} from "./my-example-config";
 
 
 
-class MyExampleApp extends ParkaApp<MyExampleConfig> {
+export class MyExampleApp extends ParkaApp<MyExampleConfig> {
 
 
   public onBeforeApplicationStart(): void {
