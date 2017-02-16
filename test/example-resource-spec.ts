@@ -97,7 +97,6 @@ describe('ExampleResource', () => {
         active: false
       })
       .end(function (err, res) {
-        console.log('res', res);
         done()
       });
   });
