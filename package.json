@@ -11,7 +11,8 @@
     "start": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
     "tsc": "tsc",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
-    "build": "rm -rf ./dist && tsc"
+    "build": "rm -rf ./dist && tsc",
+    "prepublish": "npm build"
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
   "homepage": "https://github.com/dotDeeka/parka",
