@@ -291,12 +291,12 @@ I plan to change in the near future. An overarching goal of Parka is to always r
 
 &lt;p&gt;Parka has a few global dependencies&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install -g parka typescript ts-node pm2 nodemon typings
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install -g parka typescript ts-node pm2 nodemon
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;a-typical-directory-structure&#34;&gt;A typical Directory Structure&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code&gt;├── api // This is the directory that holds all the source files for your application
+&lt;pre&gt;&lt;code&gt;├── src // This is the directory that holds all the source files for your application
 │   ├── app-config.ts // The config class for your application
 │   ├── app.ts // The main application class
 │   ├── config.yml // The settings and configuration for your application, you could have more than one of these
@@ -308,16 +308,6 @@ I plan to change in the near future. An overarching goal of Parka is to always r
 ├── logs // when running app with parka start log files are written here
 ├── package.json
 ├── tsconfig.json
-├── typings // type definition files for any libraries you&#39;re using. This dir is created by the typings cli
-│   ├── browser
-│   │   ├── ambient
-│   │   └── definitions
-│   ├── browser.d.ts
-│   ├── main
-│   │   ├── ambient
-│   │   └── definitions
-│   └── main.d.ts
-├── typings.json
 └── README.md
 
 &lt;/code&gt;&lt;/pre&gt;
@@ -338,10 +328,6 @@ $ cd todos
 # follow the prompts and answer all the question
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;create-a-typings-json&#34;&gt;Create a typings.json&lt;/h2&gt;
-
-&lt;p&gt;This file will hold the type definitions for some of the JS libraries, you&amp;rsquo;ll be adding to this with &lt;code&gt;typings install someJSModule --save&lt;/code&gt; as you develop your app&lt;/p&gt;
-
 &lt;h2 id=&#34;create-a-tsconfig-json&#34;&gt;Create a tsconfig.json&lt;/h2&gt;
 
 &lt;p&gt;This file tells ts-node and the TypeScript compiler how to compile the typescript&lt;/p&gt;
@@ -351,61 +337,48 @@ $ cd todos
 &lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
   &amp;quot;compilerOptions&amp;quot;: {
     &amp;quot;module&amp;quot;: &amp;quot;commonjs&amp;quot;,
-    &amp;quot;target&amp;quot;: &amp;quot;es5&amp;quot;,
+    &amp;quot;target&amp;quot;: &amp;quot;es6&amp;quot;,
     &amp;quot;noImplicitAny&amp;quot;: false,
+    &amp;quot;lib&amp;quot;: [&amp;quot;es6&amp;quot;],
     &amp;quot;sourceMap&amp;quot;: true,
     &amp;quot;moduleResolution&amp;quot;: &amp;quot;node&amp;quot;,
     &amp;quot;emitDecoratorMetadata&amp;quot;: true,
     &amp;quot;experimentalDecorators&amp;quot;: true,
-    &amp;quot;rootDir&amp;quot;: &amp;quot;api&amp;quot;,
+    &amp;quot;rootDir&amp;quot;: &amp;quot;src&amp;quot;,
     &amp;quot;outDir&amp;quot;: &amp;quot;dist&amp;quot;
   },
-  &amp;quot;exclude&amp;quot;: [
-    &amp;quot;node_modules&amp;quot;,
-    &amp;quot;typings/browser&amp;quot;,
-    &amp;quot;typings/browser.d.ts&amp;quot;
-  ],
   &amp;quot;compileOnSave&amp;quot;: false
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;./typings.json&lt;/p&gt;
+&lt;h2 id=&#34;parka-has-a-few-peer-dependencies-that-need-to-be-installed&#34;&gt;Parka has a few peer dependencies that need to be installed&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
-  &amp;quot;ambientDependencies&amp;quot;: {
-    &amp;quot;bluebird&amp;quot;: &amp;quot;registry:dt/bluebird#2.0.0+20160319051630&amp;quot;,
-    &amp;quot;express&amp;quot;: &amp;quot;registry:dt/express#4.0.0+20160317120654&amp;quot;,
-    &amp;quot;express-serve-static-core&amp;quot;: &amp;quot;registry:dt/express-serve-static-core#0.0.0+20160317120654&amp;quot;,
-    &amp;quot;knex&amp;quot;: &amp;quot;registry:dt/knex#0.0.0+20160321150906&amp;quot;,
-    &amp;quot;mime&amp;quot;: &amp;quot;registry:dt/mime#0.0.0+20160316155526&amp;quot;,
-    &amp;quot;node&amp;quot;: &amp;quot;registry:dt/node#4.0.0+20160319033040&amp;quot;,
-    &amp;quot;serve-static&amp;quot;: &amp;quot;registry:dt/serve-static#0.0.0+20160317120654&amp;quot;
-  },
-  &amp;quot;dependencies&amp;quot;: {
-    &amp;quot;lodash&amp;quot;: &amp;quot;registry:npm/lodash#4.0.0+20160305082308&amp;quot;,
-    &amp;quot;objection&amp;quot;: &amp;quot;github:dotDeeka/objection-d-ts/typings.json#master&amp;quot;
-  }
-}
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install --save objection@next knex
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;installing-our-typings-and-parka-locally&#34;&gt;Installing our typings and Parka locally&lt;/h2&gt;
+&lt;h2 id=&#34;installing-parka-locally&#34;&gt;Installing Parka locally&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ npm install parka --save
-$ typings install
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h1 id=&#34;app-files&#34;&gt;App Files&lt;/h1&gt;
 
-&lt;p&gt;Now that we&amp;rsquo;re set up we can get started on the application it self. Every Parka app requires a main application class, a configuration class and a config.yml file. When a Parka app boots up,
-the configuration yaml file is deserialized into an instance of your configuration class, this is a great place to put environment specific parameters, database connection parameters and such.&lt;/p&gt;
+&lt;p&gt;Now that we&amp;rsquo;re set up we can get started on the application it self. Every Parka app
+requires a main application class, a configuration class and a config.yml file. When
+a Parka app boots up, the configuration yaml file is deserialized into an instance of
+your configuration class, this is a great place to put environment specific parameters,
+database connection parameters and such.&lt;/p&gt;
 
-&lt;p&gt;We&amp;rsquo;ll put all of our source files in a directory &lt;code&gt;./api&lt;/code&gt;, we could call this anything really. Typical names would also be &lt;code&gt;./app&lt;/code&gt; or &lt;code&gt;./src&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll put all of our source files in a directory &lt;code&gt;./src&lt;/code&gt;, we could call this anything really.
+Parka makes no assumptions about your directory structure.&lt;/p&gt;
 
 &lt;h2 id=&#34;creating-a-configuration-class&#34;&gt;Creating a configuration class&lt;/h2&gt;
 
-&lt;p&gt;Our configuration class here is going to be extremely simple. Its going to be empty. However we&amp;rsquo;re going to extend ParkaConfig which will handle configuration for things like database connections.&lt;/p&gt;
+&lt;p&gt;Our configuration class here is going to be extremely simple. Its going to be empty.
+However we&amp;rsquo;re going to extend ParkaConfig which will handle configuration for things like
+database connections.&lt;/p&gt;
 
-&lt;p&gt;./api/app-config.ts&lt;/p&gt;
+&lt;p&gt;./src/app-config.ts&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaConfig} from &#39;parka&#39;;
 
@@ -419,10 +392,11 @@ export class AppConfig extends ParkaConfig {
 &lt;p&gt;When you start your app you will give it a configuration yaml file to use. You would probably have a few of these for different environments. But here we&amp;rsquo;re just going to have one
 with some simple database connection parameters defined in it.&lt;/p&gt;
 
-&lt;p&gt;./api/config.yml&lt;/p&gt;
+&lt;p&gt;./src/config.yml&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;appName: TodoMVC-API
 env: dev
+includeStackTraceInResponse: true
 host: 127.0.0.1
 port: 3000
 db:
@@ -463,7 +437,7 @@ $ sqlite3 db.sqlite
 &lt;p&gt;Our application class is the main entry point into our application. It is where we will register all our Resource Classes with Parka. Registering these
 classes will take place in the &lt;code&gt;onBeforeApplicationStart()&lt;/code&gt; lifecycle callback&lt;/p&gt;
 
-&lt;p&gt;./api/app.ts&lt;/p&gt;
+&lt;p&gt;./src/app.ts&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaApp} from &#39;parka&#39;;
 import {AppConfig} from &#39;./app-config&#39;;
@@ -483,12 +457,12 @@ export let app = new App(AppConfig);
 
 &lt;h2 id=&#34;creating-a-model-to-represent-our-todo&#34;&gt;Creating a Model to represent our Todo&lt;/h2&gt;
 
-&lt;p&gt;./api/models/todo.ts&lt;/p&gt;
+&lt;p&gt;./src/models/todo.ts&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
+&lt;pre&gt;&lt;code class=&#34;language-typescript&#34;&gt;import {ParkaModel, TableName} from &#39;parka&#39;;
 
 @TableName(&#39;Todo&#39;)
-export let Todo extend ParkaModel {
+export let Todo extends ParkaModel {
 
   public static jsonSchema = {
     type: &#39;object&#39;,
@@ -522,7 +496,7 @@ export let Todo extend ParkaModel {
 &lt;p&gt;We are going to create a resource class that will define routes to do simple CRUD on a Todo. More info
 on defining Resource Classes can be found in the Resource Classes section of these docs&lt;/p&gt;
 
-&lt;p&gt;./api/resources/todo-resource.ts&lt;/p&gt;
+&lt;p&gt;./src/resources/todo-resource.ts&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;import {
     Path,
@@ -582,7 +556,7 @@ export class TodoResource {
 &lt;p&gt;Lets run the app in dev mode where it will watch for changes and reload the app when they occur. From the root
 directory of the project run&amp;hellip;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ parka watch api/app.ts api/config.yml
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ parka watch src/app.ts src/config.yml
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Your app should be running on &lt;a href=&#34;http://localhost:3000&#34;&gt;http://localhost:3000&lt;/a&gt;&lt;/p&gt;
