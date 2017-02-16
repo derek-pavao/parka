@@ -1,0 +1,20 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "",
+    "module": "commonjs",
+    "target": "es6",
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "sourceMap": true,
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "outDir": "./dist",
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  }
+}
