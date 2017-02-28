@@ -1,4 +1,3 @@
-import * as path from 'path';
 import {
   ParkaApp,
   Application
@@ -17,14 +16,6 @@ import {ExampleService} from './services/example-service';
   resources: [ExampleResource]
 })
 export class MyExampleApp extends ParkaApp<MyExampleConfig> {
-
-
-  public onBeforeApplicationStart(): void {
-
-    this.registerResource(ExampleResource);
-
-  }
-
 }
 
 export let app = new MyExampleApp(MyExampleConfig);

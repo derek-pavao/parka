@@ -11,7 +11,6 @@ import * as Promise from 'bluebird';
 import {merge} from 'lodash';
 import {StatusModel} from "../models/status-model";
 import {PersonModel} from '../models/person-model';
-import {ExampleService} from '../services/example-service';
 import {PersonService} from '../services/person-service';
 
 

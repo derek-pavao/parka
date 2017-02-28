@@ -11,7 +11,7 @@ import * as Promise from 'bluebird';
 import * as knex from 'knex';
 import {Model} from 'objection';
 
-import {map} from 'lodash';
+import {forEach, map} from 'lodash';
 
 
 import {
@@ -39,7 +39,12 @@ export class ParkaApp <T extends ParkaConfig> {
       this.parseAppConfig();
       this.configureDatabaseConneciton();
       this.configureExpressServer();
+
+      forEach(this['__resourceClasses'], (ResourceClass) => {
+        this.registerResource(ResourceClass);
+      });
       this.onBeforeApplicationStart();
+
       this.configureGlobalErrorHandling();
 
       this.start();
