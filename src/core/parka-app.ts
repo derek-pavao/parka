@@ -1,4 +1,6 @@
-declare const objection: any;
+import 'reflect-metadata';
+import { ReflectiveInjector } from 'injection-js';
+
 import * as YAML from 'yamljs';
 import * as express from 'express';
 import * as logger from 'morgan';
@@ -9,13 +11,14 @@ import * as Promise from 'bluebird';
 import * as knex from 'knex';
 import {Model} from 'objection';
 
+import {map} from 'lodash';
+
 
 import {
   Request,
   Response
 } from 'express';
 import {ParkaConfig} from "./parka-config";
-import {ParkaModel} from "./parka-model";
 
 
 export class ParkaApp <T extends ParkaConfig> {
@@ -60,7 +63,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
       deleteMethods.forEach((deleteMethod) => {
         this.expressApp.delete(this.getPath(ResourceClass, deleteMethod), (req, res) => {
-          let resource = new ResourceClass();
+          let resource = new ResourceClass(...this.getDiArgs(ResourceClass));
           resource.req = req;
           resource.res = res;
 
@@ -81,7 +84,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
       putMethods.forEach((putMethod) => {
         this.expressApp.put(this.getPath(ResourceClass, putMethod), (req, res) => {
-          let resource = new ResourceClass();
+          let resource = new ResourceClass(...this.getDiArgs(ResourceClass));
           resource.req = req;
           resource.res = res;
 
@@ -102,7 +105,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
       postMethods.forEach((postMethod) => {
         this.expressApp.post(this.getPath(ResourceClass, postMethod), (req, res) => {
-          let resource = new ResourceClass();
+          let resource = new ResourceClass(...this.getDiArgs(ResourceClass));
           resource.req = req;
           resource.res = res;
 
@@ -123,7 +126,9 @@ export class ParkaApp <T extends ParkaConfig> {
     if (typeof getMethods !== 'undefined') {
       getMethods.forEach((getMethod) => {
         this.expressApp.get(this.getPath(ResourceClass, getMethod), (req, res) => {
-          let resource = new ResourceClass();
+
+
+          let resource = new ResourceClass(...this.getDiArgs(ResourceClass));
           resource.req = req;
           resource.res = res;
 
@@ -135,6 +140,12 @@ export class ParkaApp <T extends ParkaConfig> {
         });
       });
     }
+  }
+
+  private getDiArgs(injectable) {
+    const paramTypes = Reflect.getMetadata('design:paramtypes', injectable);
+    const injector  = ReflectiveInjector.resolveAndCreate(paramTypes);
+    return map(paramTypes, (param) => injector.get(param));
   }
 
 

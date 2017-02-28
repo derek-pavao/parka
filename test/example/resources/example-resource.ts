@@ -11,6 +11,8 @@ import * as Promise from 'bluebird';
 import {merge} from 'lodash';
 import {StatusModel} from "../models/status-model";
 import {PersonModel} from '../models/person-model';
+import {ExampleService} from '../services/example-service';
+import {PersonService} from '../services/person-service';
 
 
 @Path('/example')
@@ -19,17 +21,17 @@ export class ExampleResource {
   private req: express.Request;
   private res: express.Response;
 
+  constructor(private exampleService: ExampleService, private personService: PersonService) {
+    exampleService.log('all the things');
+  }
+
   @GET
   @Path('/example')
   public exampleGet() {
 
-
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
-
-        resolve({
-          status: 'OK'
-        });
+        resolve(this.personService.status());
       }, 0);
     });
   }
@@ -65,8 +67,6 @@ export class ExampleResource {
   @Path('/example-post-with-body')
   public examplePostWithBody(@RequestBody(StatusModel) body: StatusModel) {
 
-    // body = body instanceof StatusModel ? true : false;
-    // return body;
     return merge(body, {
       isCorrectInstance: body instanceof StatusModel ? true : false
     });
@@ -93,23 +93,19 @@ export class ExampleResource {
   @Path('/person')
   public getPersonList() {
 
-    return PersonModel.query();
+    return this.personService.getPersonList();
   }
 
   @GET
   @Path('/person/:id')
   public getPersonById(@PathParam('id') id) {
-
-    return PersonModel.query()
-      .findById(1)
+    return this.personService.getById(id);
   }
 
   @POST
   @Path('/person')
   public createPerson(@RequestBody(PersonModel) person: PersonModel) {
-
-    return person.$query()
-      .insert();
+    return this.personService.create(person);
   }
 
   @GET
