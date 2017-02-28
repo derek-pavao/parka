@@ -21,9 +21,7 @@ export class ExampleResource {
   private req: express.Request;
   private res: express.Response;
 
-  constructor(private exampleService: ExampleService, private personService: PersonService) {
-    exampleService.log('all the things');
-  }
+  constructor(private personService: PersonService) {}
 
   @GET
   @Path('/example')

@@ -144,8 +144,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
   private getDiArgs(injectable) {
     const paramTypes = Reflect.getMetadata('design:paramtypes', injectable);
-    const injector  = ReflectiveInjector.resolveAndCreate(paramTypes);
-    return map(paramTypes, (param) => injector.get(param));
+    return map(paramTypes, (param) => ParkaApp.appInstance['__injector'].get(param));
   }
 
 
