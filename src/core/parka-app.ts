@@ -28,6 +28,8 @@ export class ParkaApp <T extends ParkaConfig> {
   public configFile: string;
   public config: T;
 
+  private __injector;
+
   private port: any;
 
 
@@ -36,18 +38,21 @@ export class ParkaApp <T extends ParkaConfig> {
     this.configFile = process.env.PARKA_CONFIG_FILE;
     process.nextTick(() => {
       ParkaApp.appInstance = this;
-      this.parseAppConfig();
-      this.configureDatabaseConneciton();
-      this.configureExpressServer();
+      this.parseAppConfig().then(() => {
 
-      forEach(this['__resourceClasses'], (ResourceClass) => {
-        this.registerResource(ResourceClass);
+
+        this.configureDatabaseConneciton();
+        this.configureExpressServer();
+
+        forEach(this['__resourceClasses'], (ResourceClass) => {
+          this.registerResource(ResourceClass);
+        });
+        this.onBeforeApplicationStart();
+
+        this.configureGlobalErrorHandling();
+
+        this.start();
       });
-      this.onBeforeApplicationStart();
-
-      this.configureGlobalErrorHandling();
-
-      this.start();
     });
   }
 
@@ -216,6 +221,16 @@ export class ParkaApp <T extends ParkaConfig> {
   private parseAppConfig() {
     let configFileContents = YAML.load(this.configFile);
     this.config = new this.ConfigConstructor(configFileContents);
+
+    return Promise.resolve(this.config.configureApplication)
+      .then(() => {
+        const providers = this['__providers'];
+        providers.push({
+          provide: this.ConfigConstructor,
+          useValue: this.config
+        });
+        this.__injector = ReflectiveInjector.resolveAndCreate(providers);
+      });
   }
 
   private configureExpressServer() {

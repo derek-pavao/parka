@@ -15,6 +15,8 @@ export class ParkaConfig {
       }
     }
   }
+
+  public configureApplication() {}
 }
 
 export interface IDbConnection {
