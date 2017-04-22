@@ -1,6 +1,6 @@
 {
   "name": "parka",
-  "version": "0.5.0",
+  "version": "0.6.0-0",
   "description": "",
   "main": "dist/parka.js",
   "engines": {
