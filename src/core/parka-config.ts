@@ -6,6 +6,7 @@ export class ParkaConfig {
   public port: number;
   public db: IDbConnection;
   public routing: IRoutingConfig;
+  public logger: ILoggerConfig;
   public includeStacktraceInResponse: boolean;
 
   constructor(json) {
@@ -28,3 +29,16 @@ export interface IDbConnection {
 export interface IRoutingConfig {
   prefix: string;
 }
+
+export interface ITransportsConfig {
+  Console: any;
+  File: any;
+}
+
+export interface ILoggerConfig {
+  transports: ITransportsConfig;
+}
+
+
+
+

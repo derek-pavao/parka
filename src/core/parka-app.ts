@@ -11,7 +11,7 @@ import * as Promise from 'bluebird';
 import * as knex from 'knex';
 import {Model} from 'objection';
 
-import {forEach, map} from 'lodash';
+import {forEach, map, isEmpty} from 'lodash';
 import * as winston from 'winston';
 
 import {
@@ -235,17 +235,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
   private configureExpressServer() {
     let app: express.Application = express();
-    const winstonLogger = new winston.Logger({
-      transports: [
-        new winston.transports.Console({
-          level: 'debug',
-          handleExceptions: true,
-          json: false,
-          colorize: true
-        })
-      ],
-      exitOnError: false
-    });
+    const winstonLogger = this.configureLogger();
 
     this['__providers'].push({provide: Logger, useValue: winstonLogger});
 
@@ -259,6 +249,21 @@ export class ParkaApp <T extends ParkaConfig> {
     });
 
     this.expressApp = app;
+  }
+
+  private configureLogger() {
+
+    const logger = new winston.Logger({
+      exitOnError: false
+    });
+
+    if (this.config.logger.transports) {
+      forEach(this.config.logger.transports, (options, transportName) => {
+        logger.add(winston.transports[transportName], options);
+      });
+    }
+
+    return logger;
   }
 
   private configureInjector() {
