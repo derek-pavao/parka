@@ -7,4 +7,4 @@ program
   .parse(process.argv);
 
 var appFile = process.argv[2] || 'all';
-exec('pm2 delete ' + appFile);
+exec(`${__dirname}/../node_modules/.bin/pm2 delete ${appFile}`);

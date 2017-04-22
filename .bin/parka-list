@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 require('shelljs/global');
-exec('pm2 list');
+
+exec(`${__dirname}/../node_modules/.bin/pm2 list`);

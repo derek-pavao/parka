@@ -1,12 +1,15 @@
 #! /usr/bin/env node
+var pkg = require('../package.json');
 
 var program = require('commander');
 
 program
+  .version(pkg.version)
   .command('start <mainFile> <configYaml>', 'Start the server')
   .command('watch <mainFile> <configYaml>', 'Start the server in development mode')
   .command('stop <processName|pm2Id>', 'Stop server by processName (pm2 id also works here)')
   .command('list', 'List running pm2 processes')
   .command('delete <processName|pm2Id>', 'Delete the server by processName (pm2 id also works here)')
+  .command('dev', 'Dev')
   .parse(process.argv);
 

@@ -8,5 +8,5 @@ program
 
 var appFile = process.argv[2] || 'all';
 
-exec('pm2 stop ' + appFile);
+exec(`${__dirname}/../node_modules/.bin/pm2 stop ${appFile}`);
 

@@ -10,7 +10,6 @@ var appFile = program.args[0];
 var configFile = path.join(process.cwd(), program.args[1]);
 
 
-exec('export PARKA_CONFIG_FILE=' + configFile + ' && nodemon -e ts -x ts-node ' + appFile);
-
+exec(`export PARKA_CONFIG_FILE=${configFile} && ${__dirname}/../node_modules/.bin/nodemon -e ts -x ${__dirname}/../node_modules/.bin/ts-node ${appFile}`);
 
 process.exit(0);
