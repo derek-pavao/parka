@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/parka.js",
   "engines": {
-    "node": ">=5.3.0",
-    "npm": "~3.3.12"
+    "node": ">=6.9.5",
+    "npm": "~3.10.10"
   },
   "scripts": {
     "start": "export PARKA_CONFIG_FILE=./test/example/config.yml && nodemon -e ts -x ts-node ./test/example/my-example-app.ts",
