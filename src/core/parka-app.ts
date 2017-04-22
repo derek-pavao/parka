@@ -257,9 +257,18 @@ export class ParkaApp <T extends ParkaConfig> {
       exitOnError: false
     });
 
-    if (this.config.logger.transports) {
+
+    if (this.config.logger && this.config.logger.transports) {
       forEach(this.config.logger.transports, (options, transportName) => {
         logger.add(winston.transports[transportName], options);
+      });
+    } else {
+      logger.add(winston.transports.Console, {
+        level: 'debug',
+        handleExceptions: true,
+        json: false,
+        colorize: true,
+        timestamp: true
       });
     }
 
