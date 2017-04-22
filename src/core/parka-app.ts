@@ -12,13 +12,14 @@ import * as knex from 'knex';
 import {Model} from 'objection';
 
 import {forEach, map} from 'lodash';
-
+import * as winston from 'winston';
 
 import {
   Request,
   Response
 } from 'express';
 import {ParkaConfig} from "./parka-config";
+import { Logger } from './logger';
 
 
 export class ParkaApp <T extends ParkaConfig> {
@@ -51,6 +52,7 @@ export class ParkaApp <T extends ParkaConfig> {
 
         this.configureGlobalErrorHandling();
 
+        this.configureInjector();
         this.start();
       });
     });
@@ -224,20 +226,30 @@ export class ParkaApp <T extends ParkaConfig> {
 
     return Promise.resolve(this.config.configureApplication)
       .then(() => {
-        const providers = this['__providers'];
-        providers.push({
+        this['__providers'].push({
           provide: this.ConfigConstructor,
           useValue: this.config
         });
-        this.__injector = ReflectiveInjector.resolveAndCreate(providers);
       });
   }
 
   private configureExpressServer() {
     let app: express.Application = express();
+    const winstonLogger = new winston.Logger({
+      transports: [
+        new winston.transports.Console({
+          level: 'debug',
+          handleExceptions: true,
+          json: false,
+          colorize: true
+        })
+      ],
+      exitOnError: false
+    });
 
+    this['__providers'].push({provide: Logger, useValue: winstonLogger});
 
-    app.use(logger(this.config.env));
+    app.use(logger('combined', {immediate: true, stream: { write: (message) => winstonLogger.info(message)}}));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
@@ -247,6 +259,11 @@ export class ParkaApp <T extends ParkaConfig> {
     });
 
     this.expressApp = app;
+  }
+
+  private configureInjector() {
+
+    this.__injector = ReflectiveInjector.resolveAndCreate(this['__providers']);
   }
 
   private configureGlobalErrorHandling() {
