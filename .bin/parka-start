@@ -14,6 +14,8 @@ program
 var appFile = path.join(process.cwd(), process.argv[2]);
 var configFile = path.join(process.cwd(), process.argv[3]);
 
+process.env.PARKA_CONFIG_FILE = configFile;
+
 var instances = program.instances || 0;
 var appName = program.name || appFile;
 
@@ -27,11 +29,12 @@ if (program.production) {
   appFile = appFile.replace(/\.ts$/, '.js');
   appFile = path.join(process.cwd(), appFile);
 
-  var cmd = `export PARKA_CONFIG_FILE=${configFile} && ${__dirname}/../node_modules/.bin/pm2 start ${appFile} --name ${appName} -i ${instances} -l logs/full.log -o logs/out.log -e logs/error.log`;
+  var cmd = `${__dirname}/../node_modules/.bin/pm2 start ${appFile} --name ${appName} -i ${instances} -l logs/full.log -o logs/out.log -e logs/error.log`;
   exec(cmd);
 
 } else {
-  var cmd = `export PARKA_CONFIG_FILE=${configFile} && ${__dirname}/../node_modules/.bin/pm2 start ${appFile} --name ${appName} -i ${instances} --node-args="--require ts-node/register" -l ${process.cwd()}/logs/full.log -o ${process.cwd()}/logs/out.log -e ${process.cwd()}/logs/err.log`;
+
+  var cmd = `${__dirname}/../node_modules/.bin/pm2 start ${appFile} --name ${appName} -i ${instances} --node-args="--require ts-node/register" -l ${process.cwd()}/logs/full.log -o ${process.cwd()}/logs/out.log -e ${process.cwd()}/logs/err.log`;
   exec(cmd);
 }
 
