@@ -1,5 +1,7 @@
 # Parka [![Build Status](https://travis-ci.org/dotDeeka/parka.svg?branch=master)](https://travis-ci.org/dotDeeka/parka)
 
+## Note Parka has global dependencies on pm2, nodemon, typescript and ts-node
+
 Just as a warning Parka is in a total Pre-Alpha stage, it is not feature complete let alone production
 ready.
 
