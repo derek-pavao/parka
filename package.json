@@ -1,6 +1,6 @@
 {
   "name": "parka",
-  "version": "0.6.1",
+  "version": "0.6.2-0",
   "description": "",
   "main": "dist/parka.js",
   "engines": {
@@ -12,7 +12,7 @@
     "tsc": "tsc",
     "test": "export PARKA_CONFIG_FILE=./test/example/config.yml && mocha --require ts-node/register test/**/*-spec.ts",
     "build": "rm -rf ./dist && tsc",
-    "prepublish": "npm build"
+    "prepublish": "npm run build"
   },
   "author": "Derek Pavao <derek@dotDeeka.com>",
   "homepage": "https://github.com/dotDeeka/parka",
