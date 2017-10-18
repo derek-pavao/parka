@@ -11,6 +11,6 @@ var configFile = path.join(process.cwd(), program.args[1]);
 
 
 process.env.PARKA_CONFIG_FILE = configFile;
-exec(`${__dirname}/../node_modules/.bin/nodemon -e ts -x ${__dirname}/../node_modules/.bin/ts-node ${appFile}`);
+exec(`${__dirname}/../../.bin/nodemon -e ts -x ${__dirname}/../../.bin/ts-node ${appFile}`);
 
 process.exit(0);
